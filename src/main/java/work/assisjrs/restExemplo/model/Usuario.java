@@ -21,7 +21,7 @@ public class Usuario {
 	@Id
 	private int id;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String email;
 
 	private String name;

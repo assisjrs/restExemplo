@@ -7,7 +7,6 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.StatelessSession;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -121,20 +120,8 @@ public class UsuariosTest {
 		Assert.assertThat(telefonesEncontrados.size(), is(2));
 	}
 
-	@Autowired
-	private StatelessSession statelessSession;
-
 	@Test(expected = EmailJaCadastradoException.class)
 	public void aoCriarOUsuarioCasoEmailJaExistaRetornarExcecao() throws RestExemploException {
-
-		int sequence = (int) statelessSession.createSQLQuery("call next value for hibernate_sequence")
-										     .uniqueResult();
-		statelessSession.createSQLQuery("insert into Usuario (created, email, id) values (?, ?, ?)")
-						.setParameter(0, new Date())
-						.setParameter(1, "emailJaCadastrado@gmail.com")
-						.setParameter(2, sequence)
-						.executeUpdate();
-
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("emailJaCadastrado@gmail.com");

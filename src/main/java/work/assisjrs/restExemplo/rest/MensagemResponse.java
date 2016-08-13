@@ -1,12 +1,12 @@
 package work.assisjrs.restExemplo.rest;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
-public class AjaxResponse {
-
+public class MensagemResponse {
 	private String mensagem;
 
+	public MensagemResponse(String mensagem) {
+		this.mensagem = mensagem;
+	}
+	
 	public String getMensagem() {
 		return mensagem;
 	}

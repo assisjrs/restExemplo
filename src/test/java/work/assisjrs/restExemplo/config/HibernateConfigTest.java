@@ -8,8 +8,6 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import work.assisjrs.restExemplo.config.HibernateConfig;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { HibernateConfig.class })
 public class HibernateConfigTest {

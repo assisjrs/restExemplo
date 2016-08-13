@@ -1,5 +1,7 @@
 package work.assisjrs.restExemplo.config;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -28,5 +30,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		viewResolver.setSuffix(".jsp");
 
 		return viewResolver;
+	}
+	
+	@Bean
+	@Autowired
+	public ModelMapper modelMapper(){
+		return new ModelMapper();
 	}
 }
