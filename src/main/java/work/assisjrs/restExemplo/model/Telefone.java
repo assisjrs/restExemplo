@@ -1,5 +1,6 @@
 package work.assisjrs.restExemplo.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -8,10 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-@SequenceGenerator(name = "seq")
+@SequenceGenerator(name = "telefoneSequence")
 @Entity
 public class Telefone {
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "telefoneSequence")
 	@Id
 	private int id;
 
@@ -19,7 +20,7 @@ public class Telefone {
 
 	private String number;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Usuario usuario;
 
 	public int getId() {
@@ -44,6 +45,14 @@ public class Telefone {
 
 	public void setNumber(String number) {
 		this.number = number;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Override

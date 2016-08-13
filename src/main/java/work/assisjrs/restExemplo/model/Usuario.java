@@ -14,10 +14,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@SequenceGenerator(name = "seq")
+@SequenceGenerator(name = "usuarioSequence")
 @Entity
 public class Usuario {
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuarioSequence")
 	@Id
 	private int id;
 
@@ -28,7 +28,7 @@ public class Usuario {
 
 	private String password;
 
-	@OneToMany
+	@OneToMany(mappedBy = "usuario")
 	private List<Telefone> phones = new ArrayList<Telefone>();
 
 	@Temporal(TemporalType.TIMESTAMP)

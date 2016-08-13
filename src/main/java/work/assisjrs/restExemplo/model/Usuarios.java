@@ -26,6 +26,14 @@ public class Usuarios {
 		usuario.setLastLogin(usuario.getCreated());
 
 		hibernateTemplate.saveOrUpdate(usuario);
+		
+		for (Telefone telefone : usuario.getPhones()) {
+			telefone.setUsuario(usuario);
+			
+			hibernateTemplate.saveOrUpdate(telefone);
+		}
+		
+		hibernateTemplate.flush();
 
 		return usuario;
 	}
