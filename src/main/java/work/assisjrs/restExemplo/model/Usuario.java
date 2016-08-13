@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class Usuario {
 	@Id
 	private int id;
 
+	@Column(nullable = false)
 	private String email;
 
 	private String name;
@@ -30,6 +32,7 @@ public class Usuario {
 	private List<Telefone> phones = new ArrayList<Telefone>();
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	private Date created;
 
 	@Temporal(TemporalType.TIMESTAMP)
