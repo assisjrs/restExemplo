@@ -1,4 +1,4 @@
-package work.assisjrs.gradleExample.config;
+package work.assisjrs.restExemplo.config;
 
 import java.util.Properties;
 

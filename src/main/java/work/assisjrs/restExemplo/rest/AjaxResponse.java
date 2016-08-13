@@ -1,4 +1,4 @@
-package work.assisjrs.gradleExample.rest;
+package work.assisjrs.restExemplo.rest;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 

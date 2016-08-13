@@ -1,4 +1,4 @@
-package work.assisjrs.gradleExample;
+package work.assisjrs.restExemplo;
 
 import java.util.Map;
 

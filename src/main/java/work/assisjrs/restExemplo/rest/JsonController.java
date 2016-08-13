@@ -1,4 +1,4 @@
-package work.assisjrs.gradleExample.rest;
+package work.assisjrs.restExemplo.rest;
 
 import javax.servlet.http.HttpServletResponse;
 

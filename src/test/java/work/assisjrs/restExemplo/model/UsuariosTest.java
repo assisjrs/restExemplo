@@ -1,4 +1,4 @@
-package work.assisjrs.gradleExample.model;
+package work.assisjrs.restExemplo.model;
 
 import org.hamcrest.core.IsNot;
 import org.junit.Assert;
@@ -9,7 +9,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import work.assisjrs.gradleExample.config.HibernateConfig;
+import work.assisjrs.restExemplo.config.HibernateConfig;
+import work.assisjrs.restExemplo.model.Usuario;
+import work.assisjrs.restExemplo.model.Usuarios;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { HibernateConfig.class })

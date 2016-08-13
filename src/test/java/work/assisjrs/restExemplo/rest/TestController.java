@@ -1,4 +1,4 @@
-package work.assisjrs.gradleExample.rest;
+package work.assisjrs.restExemplo.rest;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,8 +10,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import work.assisjrs.gradleExample.config.HibernateConfig;
-import work.assisjrs.gradleExample.config.WebConfig;
+import work.assisjrs.restExemplo.config.HibernateConfig;
+import work.assisjrs.restExemplo.config.WebConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration

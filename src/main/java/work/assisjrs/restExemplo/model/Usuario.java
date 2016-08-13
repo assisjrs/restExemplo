@@ -1,4 +1,4 @@
-package work.assisjrs.gradleExample.model;
+package work.assisjrs.restExemplo.model;
 
 import java.util.ArrayList;
 import java.util.Date;

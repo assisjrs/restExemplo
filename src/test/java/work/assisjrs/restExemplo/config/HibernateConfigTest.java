@@ -1,4 +1,4 @@
-package work.assisjrs.gradleExample.config;
+package work.assisjrs.restExemplo.config;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import work.assisjrs.restExemplo.config.HibernateConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { HibernateConfig.class })

@@ -1,4 +1,4 @@
-package work.assisjrs.gradleExample.model;
+package work.assisjrs.restExemplo.model;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

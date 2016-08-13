@@ -1,4 +1,4 @@
-package work.assisjrs.gradleExample.config;
+package work.assisjrs.restExemplo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
