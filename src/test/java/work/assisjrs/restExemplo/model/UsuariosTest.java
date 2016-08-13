@@ -1,11 +1,12 @@
 package work.assisjrs.restExemplo.model;
 
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
+
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
-import org.hamcrest.core.Is;
-import org.hamcrest.core.IsNot;
 import org.hibernate.StatelessSession;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class UsuariosTest {
 
 		usuarios.salvar(usuario);
 
-		Assert.assertThat(usuario.getId(), IsNot.not(0));
+		Assert.assertThat(usuario.getId(), not(0));
 	}
 
 	@Test
@@ -46,7 +47,7 @@ public class UsuariosTest {
 
 		Date created = usuario.getCreated();
 
-		Assert.assertThat(created.before(Date.from(Instant.now())), Is.is(true));
+		Assert.assertThat(created.before(Date.from(Instant.now())), is(true));
 	}
 
 	@Test
@@ -59,7 +60,7 @@ public class UsuariosTest {
 
 		Date modified = usuario.getModified();
 
-		Assert.assertThat(modified.before(Date.from(Instant.now())), Is.is(true));
+		Assert.assertThat(modified.before(Date.from(Instant.now())), is(true));
 	}
 
 	@Test
@@ -70,7 +71,7 @@ public class UsuariosTest {
 
 		usuarios.salvar(usuario);
 
-		Assert.assertThat(usuario.getLastLogin(), Is.is(usuario.getCreated()));
+		Assert.assertThat(usuario.getLastLogin(), is(usuario.getCreated()));
 	}
 
 	@Autowired
@@ -92,7 +93,7 @@ public class UsuariosTest {
 
 		List<?> telefonesEncontrados = hibernateTemplate.find("FROM Telefone WHERE usuario = ?", usuario);
 		
-		Assert.assertThat(telefonesEncontrados.size(), Is.is(1));
+		Assert.assertThat(telefonesEncontrados.size(), is(1));
 	}
 	
 	@Test
@@ -117,7 +118,7 @@ public class UsuariosTest {
 
 		List<?> telefonesEncontrados = hibernateTemplate.find("FROM Telefone WHERE usuario = ?", usuario);
 		
-		Assert.assertThat(telefonesEncontrados.size(), Is.is(2));
+		Assert.assertThat(telefonesEncontrados.size(), is(2));
 	}
 
 	@Autowired
