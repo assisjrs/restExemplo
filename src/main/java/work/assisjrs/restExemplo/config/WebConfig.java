@@ -18,7 +18,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**")
-				.addResourceLocations("/resources/");
+		        .addResourceLocations("/resources/");
 	}
 
 	@Bean
@@ -31,10 +31,22 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
 		return viewResolver;
 	}
-	
+
+	/*
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/*").allowedOrigins("http://localhost:9000");
+			}
+		};
+	}
+	*/
+
 	@Bean
 	@Autowired
-	public ModelMapper modelMapper(){
+	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
 }

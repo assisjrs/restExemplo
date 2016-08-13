@@ -1,10 +1,119 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>Cadastro Usuário</title>
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 </head>
 <body>
+
+<nav class="navbar navbar-inverse">
+	<div class="container">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">Cadastre um usuário!</a>
+		</div>
+	</div>
+</nav>
+
+	<section>
+		<h1>Cadastro de usuário</h1>
+		<div>
+			<label>URL de Acesso</label>
+			<div>
+				<input type="text" id="url" value="http://localhost:8080" style="width:300px;"/>
+			</div>
+		</div>
+		
+		<br/>
+
+		<form id="cadastroForm">
+			<div>
+				<label>Nome</label>
+				<div>
+					<input type=text id="name" name="name" />
+				</div>
+			</div>
+			
+			<div>
+				<label>Email</label>
+				<div>
+					<input type="text" id="email" name="email" />
+				</div>
+			</div>
+			
+			<div>
+				<label>Senha</label>
+				<div>
+					<input type="text" id="password" name="password" />
+				</div>
+			</div>
+
+			<div>
+				<div>
+					<input type="submit" id="enviarBtn"/>
+				</div>
+			</div>
+		</form>
+	</section>
+	
+	<section>
+		<h4>Ajax Response</h4>
+	
+		<div id="feedback"></div>
+	</section>	
+
+	<footer>
+		<p>
+			<a href="http://github.com/assisjrs/restExemplo">http://github.com/assisjrs/restExemplo/</a>
+		</p>
+	</footer>
+
+<script>
+	jQuery(document).ready(function($) {
+		$("#cadastroForm").submit(function(event) {
+			$("#enviarBtn").prop("disabled", false);
+
+			event.preventDefault();
+
+			realizarCadastro();
+		});
+	});
+
+	function realizarCadastro() {
+		var json = {};
+		json["username"] = $("#name").val();
+		json["email"] = $("#email").val();
+		json["password"] = $("#password").val();
+
+		$.ajax({
+			type : "POST",
+			contentType : "application/json;charset=UTF-8",
+			url : $("#url").val() + "/cadastro/",
+			data : JSON.stringify(json),
+			dataType : 'json',
+			timeout : 100000,
+			success : function(data) {
+				console.log("SUCCESS: ", data);
+				display(data);
+			},
+			error : function(e) {
+				console.log("ERROR: ", e);
+				display(e);
+			},
+			done : function(e) {
+				console.log("DONE");
+				$("#enviarBtn").prop("disabled", true);
+			}
+		});
+	}
+
+	function display(data) {
+		var feedback = "<pre>" + JSON.stringify(data, null, 4) + "</pre>";
+				
+		$('#feedback').html(feedback);
+	}
+</script>
 
 </body>
 </html>

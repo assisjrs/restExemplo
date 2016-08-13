@@ -21,7 +21,8 @@ public class CadastroUsuarioController {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	@RequestMapping(value = "/cadastro", produces = "application/json;charset=UTF-8", method = { RequestMethod.POST })
+	@RequestMapping(value = "/cadastro/", produces = "application/json;charset=UTF-8",
+					method = { RequestMethod.POST, RequestMethod.GET })
 	public ResponseEntity<?> salvar(@RequestBody UsuarioJson usuario) {
 
 		Usuario model = modelMapper.map(usuario, Usuario.class);
