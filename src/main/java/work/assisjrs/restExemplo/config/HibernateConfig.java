@@ -15,14 +15,14 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
 @Configuration
-@ComponentScan({ "work.assisjrs.gradleExample.model" })
+@ComponentScan({ "work.assisjrs.restExemplo.model" })
 public class HibernateConfig {
 	@Bean()
 	public DataSource getDataSource() {
 		DriverManagerDataSource ds = new DriverManagerDataSource();
 
 		ds.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
-		ds.setUrl("jdbc:hsqldb:file:db/GradleExample;shutdown=true");
+		ds.setUrl("jdbc:hsqldb:file:db/RestExemplo;shutdown=true");
 		ds.setUsername("sa");
 		ds.setPassword("");
 
@@ -47,7 +47,7 @@ public class HibernateConfig {
 
 		asfb.setDataSource(getDataSource());
 		asfb.setHibernateProperties(getHibernateProperties());
-		asfb.setPackagesToScan(new String[] { "work.assisjrs.gradleExample.model" });
+		asfb.setPackagesToScan(new String[] { "work.assisjrs.restExemplo.model" });
 
 		return asfb;
 	}

@@ -11,7 +11,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan({ "work.assisjrs.gradleExample" })
+@ComponentScan({ "work.assisjrs.restExemplo" })
 public class WebConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {

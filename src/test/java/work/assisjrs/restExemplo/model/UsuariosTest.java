@@ -24,7 +24,7 @@ public class UsuariosTest {
 	public void deveSalvarOUsuario() {
 		Usuario usuario = new Usuario();
 
-		usuario.setEmail("assisjrs@gmail.com");
+		usuario.setEmail("email@gmail.com");
 
 		usuarios.salvar(usuario);
 

@@ -71,7 +71,7 @@ buildscript {
 
 gretty {
   port = 8080
-  contextPath = 'GradleExample'
+  contextPath = '/'
   servletContainer = 'jetty9' //tomcat7 or tomcat8
 }
 
@@ -79,7 +79,7 @@ eclipse {
   wtp {
     component {
       //define context path, default to project folder name
-      contextPath = 'GradleExample'
+      contextPath = '/'
     }
   }
 }
