@@ -38,13 +38,41 @@ public class CadastroUsuarioControllerTest {
 
 	@Test
 	public void oEndpointDeveResponderJson() throws Exception {		
-		mockMvc.perform(post("/cadastro"))
-	     	   .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+		StringBuilder json = new StringBuilder();
+		
+		json.append("{");
+		json.append("    \"name\": \"João da Silva\",");
+		json.append("    \"email\": \"joao@silva.org\",");
+		json.append("    \"password\": \"hunter2\",");
+		json.append("    \"phones\": [");
+		json.append("        {");
+		json.append("            \"number\": \"987654321\",");
+		json.append("            \"ddd\": \"21\"");
+		json.append("        }");
+		json.append("    ]");
+		json.append("}");
+		
+		mockMvc.perform(post("/cadastro").contentType(MediaType.APPLICATION_JSON_VALUE).content(json.toString()))
+	     	   .andExpect(content().contentType("application/json;charset=UTF-8"));
 	}
 	
 	@Test
 	public void oCadastroDeveUsarPost() throws Exception {		
-		mockMvc.perform(post("/cadastro"))
+		StringBuilder json = new StringBuilder();
+		
+		json.append("{");
+		json.append("    \"name\": \"João da Silva\",");
+		json.append("    \"email\": \"joao@silva.org\",");
+		json.append("    \"password\": \"hunter2\",");
+		json.append("    \"phones\": [");
+		json.append("        {");
+		json.append("            \"number\": \"987654321\",");
+		json.append("            \"ddd\": \"21\"");
+		json.append("        }");
+		json.append("    ]");
+		json.append("}");
+		
+		mockMvc.perform(post("/cadastro").contentType(MediaType.APPLICATION_JSON_VALUE).content(json.toString()))
   	   		   .andExpect(status().isOk());
 	}
 	
@@ -55,9 +83,62 @@ public class CadastroUsuarioControllerTest {
 	}
 	
 	@Test
-	public void salvarTest() throws Exception {		
-		mockMvc.perform(post("/cadastro"))
-	     	   .andExpect(status().isOk())
-	           .andExpect(content().json("{mensagem: null}"));
+	public void emCasoDeSucessoReponderComStatus200() throws Exception {
+		StringBuilder json = new StringBuilder();
+		
+		json.append("{");
+		json.append("    \"name\": \"João da Silva\",");
+		json.append("    \"email\": \"joao@silva.org\",");
+		json.append("    \"password\": \"hunter2\",");
+		json.append("    \"phones\": [");
+		json.append("        {");
+		json.append("            \"number\": \"987654321\",");
+		json.append("            \"ddd\": \"21\"");
+		json.append("        }");
+		json.append("    ]");
+		json.append("}");
+		
+		mockMvc.perform(post("/cadastro").contentType(MediaType.APPLICATION_JSON_VALUE).content(json.toString()))
+	     	   .andExpect(status().isOk());
+	}
+	
+	@Test
+	public void aComunicacaoDeveUsarUTF8() throws Exception {
+		StringBuilder json = new StringBuilder();
+		
+		json.append("{");
+		json.append("    \"name\": \"João da Silva\",");
+		json.append("    \"email\": \"joao@silva.org\",");
+		json.append("    \"password\": \"hunter2\",");
+		json.append("    \"phones\": [");
+		json.append("        {");
+		json.append("            \"number\": \"987654321\",");
+		json.append("            \"ddd\": \"21\"");
+		json.append("        }");
+		json.append("    ]");
+		json.append("}");
+		
+		mockMvc.perform(post("/cadastro").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
+	           .andExpect(content().encoding("UTF-8"));
+	}
+	
+	@Test
+	public void aoCadastrarRetornarOUsuario() throws Exception {
+		StringBuilder json = new StringBuilder();
+		
+		json.append("{");
+		json.append("    \"name\": \"João da Silva\",");
+		json.append("    \"email\": \"joao@silva.org\",");
+		json.append("    \"password\": \"hunter2\",");
+		json.append("    \"phones\": [");
+		json.append("        {");
+		json.append("            \"number\": \"987654321\",");
+		json.append("            \"ddd\": \"21\"");
+		json.append("        }");
+		json.append("    ]");
+		json.append("}");
+		
+		mockMvc.perform(post("/cadastro").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
+	           .andExpect(content().json(json.toString()));
 	}
 }
