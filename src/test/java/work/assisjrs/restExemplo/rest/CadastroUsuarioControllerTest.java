@@ -20,12 +20,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import work.assisjrs.restExemplo.config.HibernateConfig;
 import work.assisjrs.restExemplo.config.WebConfig; 
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = { work.assisjrs.restExemplo.HibernateConfig.class, WebConfig.class })
+@ContextConfiguration(classes = { HibernateConfig.class, WebConfig.class })
 @Transactional
 public class CadastroUsuarioControllerTest {
 	@Autowired
