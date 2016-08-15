@@ -107,7 +107,7 @@
 		
 		<h1>Perfil</h1>
 		
-		<form id="cadastroForm">
+		<form id="perfilForm">
 			<div>
 				<label>Id</label>
 				<div>
@@ -132,10 +132,10 @@
 	
 	<section>
 		<div id="feedbackContainer">
-			<h4>Resposta Ajax</h4>
+			<h4>Resposta Ajax <span id="dataRequisicao"></span></h4>
 		
-			<div id="feedback"></div>
-			<div id="trace"></div>
+			<div><pre id="feedback"></pre></div>
+			<div><pre id="trace"></pre></div>
 		</div>	
 	</section>
 	
@@ -152,6 +152,14 @@
 			event.preventDefault();
 
 			realizarCadastro();
+		});
+		
+		$("#loginForm").submit(function(event) {
+			$("#loginEnviarBtn").prop("disabled", false);
+
+			event.preventDefault();
+
+			realizarLogin();
 		});
 	});
 
@@ -185,6 +193,36 @@
 			}
 		});
 	}
+	
+	function realizarLogin() {
+		var json = {};
+		json["email"] = $("#loginEmail").val();
+		json["password"] = $("#loginPassword").val();
+
+		$.ajax({
+			type : "POST",
+			contentType : "application/json;charset=UTF-8",
+			url : "/login/",
+			data : JSON.stringify(json),
+			dataType : 'json',
+			timeout : 100000,
+			success : function(data) {
+				console.log("SUCCESS: ", data);
+				
+				display(data, true);
+			},
+			error : function(e) {
+				console.log("ERROR: ", e);
+				
+				display(e, false);
+			},
+			done : function(e) {
+				console.log("DONE");
+				
+				$("#loginEnviarBtn").prop("disabled", true);
+			}
+		});
+	}
 
 	function display(data, sucesso) {
 		$("#feedbackContainer").removeClass("erro");
@@ -194,19 +232,21 @@
 		var trace = "";
 		
 		if(sucesso){
-			feedback = "<pre>" + JSON.stringify(data, null, 4) + "</pre>";
+			feedback = JSON.stringify(data, null, 4);
 			
 			$("#feedbackContainer").addClass("sucesso");
 		} else {
-			feedback = "<pre>" + JSON.stringify(data.responseJSON, null, 4) + "</pre>";
+			feedback = JSON.stringify(data.responseJSON, null, 4);
 			
 			$("#feedbackContainer").addClass("erro");
 						
-			trace = "<pre>" + JSON.stringify(data, null, 4) + "</pre>";
+			trace = JSON.stringify(data, null, 4);
 		}
 		
 		$('#trace').html(trace);
 		$('#feedback').html(feedback);
+		
+		$('#dataRequisicao').html(new Date().toString());
 	}
 </script>
 
