@@ -1,4 +1,4 @@
-package work.assisjrs.restExemplo;
+package work.assisjrs.restExemplo.rest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

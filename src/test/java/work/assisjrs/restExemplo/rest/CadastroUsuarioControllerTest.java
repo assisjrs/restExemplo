@@ -13,21 +13,31 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.TestExecutionListeners.MergeMode;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import work.assisjrs.restExemplo.config.HibernateConfig;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+
+import work.assisjrs.restExemplo.DBUnitConfig;
 import work.assisjrs.restExemplo.config.WebConfig; 
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = { HibernateConfig.class, WebConfig.class })
+@ContextConfiguration(classes = { DBUnitConfig.class, WebConfig.class })
 @Transactional
+@TestExecutionListeners(value = { DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
+								  DbUnitTestExecutionListener.class }, mergeMode = MergeMode.MERGE_WITH_DEFAULTS)
+@DatabaseSetup("/Datasets/UsuariosTest.xml")
 public class CadastroUsuarioControllerTest {
 	@Autowired
 	private WebApplicationContext wac;
@@ -126,7 +136,7 @@ public class CadastroUsuarioControllerTest {
 	           .andExpect(content().json(json.toString()));
 	}
 	
-	//@Test
+	@Test
 	public void aoCadastrarRetornarOUsuarioComId() throws Exception {
 		StringBuilder json = new StringBuilder();
 		
@@ -205,17 +215,9 @@ public class CadastroUsuarioControllerTest {
 		mockMvc.perform(post("/cadastro/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
 	           .andExpect(jsonPath("$.last_login").exists());
 	}
-	/*
-	@Autowired
-	private StatelessSession statelessSession;
 	
 	@Test
 	public void casoOEmailJaExistaRetornarMensagemDeErroEmailJaExistente() throws Exception {
-		InserirDadosBean inserir = new InserirDadosBean();
-		inserir.statelessSession = statelessSession;
-		
-		inserir.inserirUmUsuarioJaExistenteNoBanco();
-		
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
@@ -236,11 +238,6 @@ public class CadastroUsuarioControllerTest {
 	
 	@Test
 	public void casoOEmailJaExistaRetornarStatusDeConflito() throws Exception {
-		InserirDadosBean inserir = new InserirDadosBean();
-		inserir.statelessSession = statelessSession;
-		
-		inserir.inserirUmUsuarioJaExistenteNoBanco();
-		
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
@@ -257,5 +254,5 @@ public class CadastroUsuarioControllerTest {
 		
 		mockMvc.perform(post("/cadastro/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
 			   .andExpect(status().isConflict());
-	}*/
+	}
 }
