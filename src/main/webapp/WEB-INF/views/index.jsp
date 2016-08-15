@@ -161,6 +161,14 @@
 
 			realizarLogin();
 		});
+		
+		$("#perfilForm").submit(function(event) {
+			$("#perfilEnviarBtn").prop("disabled", false);
+
+			event.preventDefault();
+
+			realizarPerfil();
+		});
 	});
 
 	function realizarCadastro() {
@@ -220,6 +228,36 @@
 				console.log("DONE");
 				
 				$("#loginEnviarBtn").prop("disabled", true);
+			}
+		});
+	}
+	
+	function realizarPerfil() {
+		var json = {};
+		json["id"] = $("#perfilId").val();
+		//json["token"] = $("#loginPassword").val();
+
+		$.ajax({
+			type : "POST",
+			contentType : "application/json;charset=UTF-8",
+			url : "/perfil/",
+			data : JSON.stringify(json),
+			dataType : 'json',
+			timeout : 100000,
+			success : function(data) {
+				console.log("SUCCESS: ", data);
+				
+				display(data, true);
+			},
+			error : function(e) {
+				console.log("ERROR: ", e);
+				
+				display(e, false);
+			},
+			done : function(e) {
+				console.log("DONE");
+				
+				$("#perfilEnviarBtn").prop("disabled", true);
 			}
 		});
 	}
