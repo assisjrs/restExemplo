@@ -1,9 +1,12 @@
 package work.assisjrs.restExemplo.config;
 
-//@Configuration
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
 //@ComponentScan({ "work.assisjrs.restExemplo.model" })
 //@EnableTransactionManagement
 public class HibernateConfig {
+
 	/*
 	@Autowired
 	@Bean
@@ -19,7 +22,8 @@ public class HibernateConfig {
 		
 		return ds;
 	}
-	
+	*/
+	/*
 	@Bean
 	public HibernateJpaVendorAdapter getHibernateJpaVendorAdapter(){
 		return new HibernateJpaVendorAdapter();

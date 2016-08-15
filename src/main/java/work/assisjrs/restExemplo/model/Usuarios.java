@@ -4,31 +4,19 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-//@Transactional
+@Transactional
 @Repository
 public class Usuarios {
-	// @PersistenceContext
-	// private EntityManager entityManager;
+	@PersistenceContext
+	private EntityManager entityManager;
 
-	// @Transactional
+	@Transactional
 	public Usuario salvar(Usuario usuario) throws EmailJaCadastradoException {
-		EntityManagerFactory factory;
-
-		try {
-			factory = Persistence.createEntityManagerFactory("restExemploPU");
-		} catch (Exception e) {
-			factory = Persistence.createEntityManagerFactory("default");
-		}
-
-		EntityManager entityManager = factory.createEntityManager();
-
-		entityManager.getTransaction().begin();
-
 		List<?> usuariosComEmailExistente = entityManager.createQuery("FROM Usuario WHERE email = :email")
 				.setParameter("email", usuario.getEmail()).getResultList();
 
@@ -51,8 +39,7 @@ public class Usuarios {
 		entityManager.flush();
 		entityManager.refresh(usuario);
 
-		entityManager.getTransaction().commit();
-		entityManager.close();
+		//throw new RuntimeException();
 
 		return usuario;
 	}
