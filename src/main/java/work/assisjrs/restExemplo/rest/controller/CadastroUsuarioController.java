@@ -1,4 +1,4 @@
-package work.assisjrs.restExemplo.rest;
+package work.assisjrs.restExemplo.rest.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import work.assisjrs.restExemplo.model.entity.Usuario;
 import work.assisjrs.restExemplo.model.service.EmailJaCadastradoException;
 import work.assisjrs.restExemplo.model.service.Registration;
+import work.assisjrs.restExemplo.rest.json.MensagemJson;
+import work.assisjrs.restExemplo.rest.json.UsuarioJson;
 
 @RestController
 public class CadastroUsuarioController {

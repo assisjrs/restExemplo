@@ -1,4 +1,4 @@
-package work.assisjrs.restExemplo.rest;
+package work.assisjrs.restExemplo.rest.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

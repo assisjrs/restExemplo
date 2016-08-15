@@ -1,4 +1,4 @@
-package work.assisjrs.restExemplo.rest;
+package work.assisjrs.restExemplo.rest.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,8 @@ import work.assisjrs.restExemplo.model.entity.Usuario;
 import work.assisjrs.restExemplo.model.service.Authentication;
 import work.assisjrs.restExemplo.model.service.UsuarioESenhaInvalidosException;
 import work.assisjrs.restExemplo.model.service.UsuarioInexistenteException;
+import work.assisjrs.restExemplo.rest.json.MensagemJson;
+import work.assisjrs.restExemplo.rest.json.UsuarioJson;
 
 @RestController
 public class LoginController {

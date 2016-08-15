@@ -1,4 +1,4 @@
-package work.assisjrs.restExemplo.rest;
+package work.assisjrs.restExemplo.rest.json;
 
 import java.util.Date;
 import java.util.List;

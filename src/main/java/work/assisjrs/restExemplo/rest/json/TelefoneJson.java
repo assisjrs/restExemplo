@@ -1,4 +1,4 @@
-package work.assisjrs.restExemplo.rest;
+package work.assisjrs.restExemplo.rest.json;
 
 public class TelefoneJson {
 	private String ddd;
