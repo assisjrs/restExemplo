@@ -5,13 +5,11 @@ import static org.hamcrest.core.IsNot.not;
 
 import java.time.Instant;
 import java.util.Date;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +27,7 @@ public class UsuariosTest {
 	public void deveSalvarOUsuario() throws RestExemploException {
 		Usuario usuario = new Usuario();
 
-		usuario.setEmail("email@gmail.com");
+		usuario.setEmail("email1@gmail.com");
 
 		usuarios.salvar(usuario);
 
@@ -40,7 +38,7 @@ public class UsuariosTest {
 	public void aoCriarOUsuarioInserirCreated() throws RestExemploException {
 		Usuario usuario = new Usuario();
 
-		usuario.setEmail("email@gmail.com");
+		usuario.setEmail("email2@gmail.com");
 
 		usuarios.salvar(usuario);
 
@@ -53,7 +51,7 @@ public class UsuariosTest {
 	public void aoCriarOUsuarioInserirModified() throws RestExemploException {
 		Usuario usuario = new Usuario();
 
-		usuario.setEmail("email@gmail.com");
+		usuario.setEmail("email3@gmail.com");
 
 		usuarios.salvar(usuario);
 
@@ -66,21 +64,22 @@ public class UsuariosTest {
 	public void aoCriarOUsuarioInserirLastLoginIgualACreated() throws RestExemploException {
 		Usuario usuario = new Usuario();
 
-		usuario.setEmail("email@gmail.com");
+		usuario.setEmail("email4@gmail.com");
 
 		usuarios.salvar(usuario);
 
 		Assert.assertThat(usuario.getLastLogin(), is(usuario.getCreated()));
 	}
 
+	/*
 	@Autowired
-	private HibernateTemplate hibernateTemplate;
+	private SessionFactory sessionFactory;
 	
 	@Test
 	public void aoCriarOUsuarioInserirTelefone() throws RestExemploException {
 		Usuario usuario = new Usuario();
 
-		usuario.setEmail("email@gmail.com");
+		usuario.setEmail("email5@gmail.com");
 		
 		Telefone telefone = new Telefone();
 		telefone.setDdd("85");
@@ -90,7 +89,9 @@ public class UsuariosTest {
 
 		usuarios.salvar(usuario);
 
-		List<?> telefonesEncontrados = hibernateTemplate.find("FROM Telefone WHERE usuario = ?", usuario);
+		List<?> telefonesEncontrados = sessionFactory.getCurrentSession().createQuery("FROM Telefone WHERE usuario = :usuario")
+													 .setParameter("usuario", usuario)
+													 .list();
 		
 		Assert.assertThat(telefonesEncontrados.size(), is(1));
 	}
@@ -99,7 +100,7 @@ public class UsuariosTest {
 	public void aoCriarOUsuarioPodeInserirMaisDeUmTelefone() throws RestExemploException {
 		Usuario usuario = new Usuario();
 
-		usuario.setEmail("email@gmail.com");
+		usuario.setEmail("email6@gmail.com");
 		
 		Telefone telefone1 = new Telefone();
 		telefone1.setDdd("85");
@@ -115,17 +116,30 @@ public class UsuariosTest {
 		
 		usuarios.salvar(usuario);
 
-		List<?> telefonesEncontrados = hibernateTemplate.find("FROM Telefone WHERE usuario = ?", usuario);
+		List<?> telefonesEncontrados = sessionFactory.getCurrentSession().createQuery("FROM Telefone WHERE usuario = :usuario")
+				 									 .setParameter("usuario", usuario)
+				 									 .list();
 		
 		Assert.assertThat(telefonesEncontrados.size(), is(2));
 	}
+	*/
+	
+	/*
+	@Autowired
+	private StatelessSession statelessSession;
 
 	@Test(expected = EmailJaCadastradoException.class)
 	public void aoCriarOUsuarioCasoEmailJaExistaRetornarExcecao() throws RestExemploException {
+		InserirDadosBean inserir = new InserirDadosBean();
+		inserir.statelessSession = statelessSession;
+		
+		inserir.inserirUmUsuarioJaExistenteNoBanco();
+		
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("emailJaCadastrado@gmail.com");
 
 		usuarios.salvar(usuario);
 	}
+	*/
 }

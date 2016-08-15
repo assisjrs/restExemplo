@@ -14,6 +14,8 @@ apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'org.akhikhl.gretty' //para Jetty
 
+sourceSets.main.resources.srcDirs += ["src/main/resources"]
+sourceSets.test.resources.srcDirs += ["src/test/resources"]
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -31,6 +33,11 @@ dependencies {
     
     compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
     compile 'org.springframework:spring-orm:4.1.6.RELEASE'
+    
+    compile 'org.springframework.boot:spring-boot-starter-parent'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa' 
+        
+    compile 'org.apache.commons:commons-dbcp2:2.0'
     
     compile 'javax.servlet:jstl:1.2'
     

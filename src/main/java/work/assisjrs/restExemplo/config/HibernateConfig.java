@@ -1,71 +1,55 @@
 package work.assisjrs.restExemplo.config;
 
-import java.util.Properties;
-
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.StatelessSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate4.HibernateTemplate;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @ComponentScan({ "work.assisjrs.restExemplo.model" })
+@EnableTransactionManagement
 public class HibernateConfig {
-	@Bean()
+	@Autowired
+	@Bean
 	public DataSource getDataSource() {
 		DriverManagerDataSource ds = new DriverManagerDataSource();
 
 		ds.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
+		// ds.setUrl("jdbc:hsqldb:mem:RestExemplo;shutdown=true");
 		ds.setUrl("jdbc:hsqldb:file:db/RestExemplo;shutdown=true");
+
 		ds.setUsername("sa");
 		ds.setPassword("");
-
+		
 		return ds;
-	}
-
-	@Bean
-	@Autowired
-	public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
-		return new HibernateTransactionManager(sessionFactory);
-	}
-
-	@Bean
-	@Autowired
-	public HibernateTemplate getHibernateTemplate(SessionFactory sessionFactory) {
-		return new HibernateTemplate(sessionFactory);
 	}
 	
 	@Bean
-	public StatelessSession getStatelessSession(HibernateTemplate hibernateTemplate) {
-		return hibernateTemplate.getSessionFactory().openStatelessSession();
+	public HibernateJpaVendorAdapter getHibernateJpaVendorAdapter(){
+		return new HibernateJpaVendorAdapter();
 	}
-
+	
 	@Bean
-	public LocalSessionFactoryBean getSessionFactory() {
-		LocalSessionFactoryBean asfb = new LocalSessionFactoryBean();
-
-		asfb.setDataSource(getDataSource());
-		asfb.setHibernateProperties(getHibernateProperties());
-		asfb.setPackagesToScan(new String[] { "work.assisjrs.restExemplo.model" });
-
-		return asfb;
+	public LocalContainerEntityManagerFactoryBean getEntityManagerFactory(HibernateJpaVendorAdapter hibernateJpaVendorAdapter, DataSource dataSource){
+		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+		
+		factory.setDataSource(dataSource);
+		factory.setJpaVendorAdapter(hibernateJpaVendorAdapter);
+				
+		return factory;
 	}
-
+		
 	@Bean
-	public Properties getHibernateProperties() {
-		Properties properties = new Properties();
-		properties.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-		properties.put("hibernate.show_sql", true);
-		properties.put("hibernate.hbm2ddl.auto", "update");
-		properties.put("org.hibernate.flushMode", "COMMIT");
-
-		return properties;
+	@Autowired
+	public JpaTransactionManager getTransactionManager(EntityManagerFactory entityManagerFactory) {
+		return new JpaTransactionManager(entityManagerFactory);
 	}
 }

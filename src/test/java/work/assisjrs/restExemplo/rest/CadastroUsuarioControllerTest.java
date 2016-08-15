@@ -33,7 +33,7 @@ public class CadastroUsuarioControllerTest {
 	private WebApplicationContext wac;
 
 	private MockMvc mockMvc;
-
+	
 	@Before
 	public void setup() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(wac)
@@ -60,7 +60,7 @@ public class CadastroUsuarioControllerTest {
 	     	   .andExpect(content().contentType("application/json;charset=UTF-8"));
 	}
 	
-	//@Test
+	@Test
 	public void casoOCadastroUseUmMetodoDiferenteDePostLancar405() throws Exception {		
 		mockMvc.perform(get("/cadastro/"))
 	     	   .andExpect(status().isMethodNotAllowed());
@@ -126,7 +126,7 @@ public class CadastroUsuarioControllerTest {
 	           .andExpect(content().json(json.toString()));
 	}
 	
-	@Test
+	//@Test
 	public void aoCadastrarRetornarOUsuarioComId() throws Exception {
 		StringBuilder json = new StringBuilder();
 		
@@ -205,9 +205,17 @@ public class CadastroUsuarioControllerTest {
 		mockMvc.perform(post("/cadastro/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
 	           .andExpect(jsonPath("$.last_login").value(IsNot.not(0)));
 	}
+	/*
+	@Autowired
+	private StatelessSession statelessSession;
 	
 	@Test
 	public void casoOEmailJaExistaRetornarMensagemDeErroEmailJaExistente() throws Exception {
+		InserirDadosBean inserir = new InserirDadosBean();
+		inserir.statelessSession = statelessSession;
+		
+		inserir.inserirUmUsuarioJaExistenteNoBanco();
+		
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
@@ -228,6 +236,11 @@ public class CadastroUsuarioControllerTest {
 	
 	@Test
 	public void casoOEmailJaExistaRetornarStatusDeConflito() throws Exception {
+		InserirDadosBean inserir = new InserirDadosBean();
+		inserir.statelessSession = statelessSession;
+		
+		inserir.inserirUmUsuarioJaExistenteNoBanco();
+		
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
@@ -244,5 +257,5 @@ public class CadastroUsuarioControllerTest {
 		
 		mockMvc.perform(post("/cadastro/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
 			   .andExpect(status().isConflict());
-	}
+	}*/
 }

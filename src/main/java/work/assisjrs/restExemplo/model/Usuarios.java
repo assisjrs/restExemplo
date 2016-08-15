@@ -3,19 +3,24 @@ package work.assisjrs.restExemplo.model;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateTemplate;
-import org.springframework.stereotype.Component;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@Component
-public class Usuarios {
-	@Autowired
-	private HibernateTemplate hibernateTemplate;
-
+@Repository
+public class Usuarios
+{
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+	@Transactional
 	public Usuario salvar(Usuario usuario) throws EmailJaCadastradoException {
-		List<?> usuariosComEmailExistente = hibernateTemplate.find("FROM Usuario WHERE email = ?", usuario.getEmail());
+		List<?> usuariosComEmailExistente = entityManager.createQuery("FROM Usuario WHERE email = :email")
+												   		 .setParameter("email", usuario.getEmail())
+												   		 .getResultList();
 
 		if (!usuariosComEmailExistente.isEmpty())
 			throw new EmailJaCadastradoException(usuario.getEmail());
@@ -25,16 +30,17 @@ public class Usuarios {
 		usuario.setModified(usuario.getCreated());
 		usuario.setLastLogin(usuario.getCreated());
 
-		hibernateTemplate.saveOrUpdate(usuario);
+		entityManager.persist(usuario);
 		
 		for (Telefone telefone : usuario.getPhones()) {
 			telefone.setUsuario(usuario);
 			
-			hibernateTemplate.saveOrUpdate(telefone);
+			entityManager.persist(telefone);
 		}
 		
-		hibernateTemplate.flush();
-
+		entityManager.flush();
+		entityManager.refresh(usuario);
+		
 		return usuario;
 	}
 }

@@ -1,32 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <title>Cadastro Usuário</title>
+
+<style>
+	.sucesso {
+		border-style: solid;
+		border-color:#00FF00;
+	}
+	
+	.erro {
+		border-style: solid;
+		border-color:#FF0000;
+	}
+</style>
 
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
-	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#">Cadastre um usuário!</a>
-		</div>
-	</div>
-</nav>
-
 	<section>
 		<h1>Cadastro de usuário</h1>
-		<div>
-			<label>URL de Acesso</label>
-			<div>
-				<input type="text" id="url" value="http://localhost:8080" style="width:300px;"/>
-			</div>
-		</div>
 		
-		<br/>
-
 		<form id="cadastroForm">
 			<div>
 				<label>Nome</label>
@@ -49,19 +45,24 @@
 				</div>
 			</div>
 
+			<br/>
+
 			<div>
 				<div>
 					<input type="submit" id="enviarBtn"/>
 				</div>
 			</div>
+			
+			<br/>
 		</form>
 	</section>
 	
-	<section>
+	<div id="feedbackContainer">
 		<h4>Ajax Response</h4>
 	
 		<div id="feedback"></div>
-	</section>	
+		<div id="trace"></div>
+	</div>	
 
 	<footer>
 		<p>
@@ -89,29 +90,44 @@
 		$.ajax({
 			type : "POST",
 			contentType : "application/json;charset=UTF-8",
-			url : $("#url").val() + "/cadastro/",
+			url : "/cadastro/",
 			data : JSON.stringify(json),
 			dataType : 'json',
 			timeout : 100000,
 			success : function(data) {
 				console.log("SUCCESS: ", data);
+				
 				display(data);
 			},
 			error : function(e) {
 				console.log("ERROR: ", e);
+				
 				display(e);
 			},
 			done : function(e) {
 				console.log("DONE");
+				
 				$("#enviarBtn").prop("disabled", true);
 			}
 		});
 	}
 
 	function display(data) {
-		var feedback = "<pre>" + JSON.stringify(data, null, 4) + "</pre>";
-				
+		$("#feedbackContainer").removeClass("erro");
+		$("#feedbackContainer").removeClass("sucesso");
+		
+		if(data["status"] == 200){
+			$("#feedbackContainer").addClass("sucesso");
+		} else {
+			$("#feedbackContainer").addClass("erro");
+			//$("#trace").visible(true);
+		}
+		
+		var feedback = "<pre>" + JSON.stringify(data.responseJSON, null, 4) + "</pre>";
 		$('#feedback').html(feedback);
+		
+		var trace = "<pre>" + JSON.stringify(data, null, 4) + "</pre>";
+		$('#trace').html(trace);
 	}
 </script>
 
