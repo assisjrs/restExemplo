@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.hamcrest.core.IsNot;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,14 +29,13 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import work.assisjrs.restExemplo.DBUnitConfig;
 import work.assisjrs.restExemplo.config.WebConfig; 
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = { DBUnitConfig.class, WebConfig.class })
 @Transactional
+@ContextConfiguration(classes = { DBUnitConfig.class, WebConfig.class })
 @TestExecutionListeners(value = { DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
 								  DbUnitTestExecutionListener.class }, mergeMode = MergeMode.MERGE_WITH_DEFAULTS)
-@DatabaseSetup("/Datasets/UsuariosTest.xml")
+@DatabaseSetup("/Datasets/CadastroUsuarioControllerTest.xml")
 public class CadastroUsuarioControllerTest {
 	@Autowired
 	private WebApplicationContext wac;
@@ -56,7 +54,7 @@ public class CadastroUsuarioControllerTest {
 		
 		json.append("{");
 		json.append("    \"name\": \"João da Silva\",");
-		json.append("    \"email\": \"joao@silva.org\",");
+		json.append("    \"email\": \"json@silva.org\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");
 		json.append("        {");
@@ -153,7 +151,7 @@ public class CadastroUsuarioControllerTest {
 		json.append("}");
 		
 		mockMvc.perform(post("/cadastro/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
-	           .andExpect(jsonPath("$.id").value(IsNot.not(0)));
+	           .andExpect(jsonPath("$.id").exists());
 	}
 	
 	@Test
@@ -162,7 +160,7 @@ public class CadastroUsuarioControllerTest {
 		
 		json.append("{");
 		json.append("    \"name\": \"João da Silva\",");
-		json.append("    \"email\": \"id@gmail.com\",");
+		json.append("    \"email\": \"created@gmail.com\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");
 		json.append("        {");

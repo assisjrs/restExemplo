@@ -21,21 +21,21 @@ public class CadastroUsuarioController {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	@RequestMapping(value = "/cadastro/", produces = "application/json;charset=UTF-8",
-					method = { RequestMethod.POST }, consumes = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/cadastro/", produces = "application/json;charset=UTF-8", method = {
+			RequestMethod.POST }, consumes = "application/json;charset=UTF-8")
 	public ResponseEntity<?> salvar(@RequestBody UsuarioJson usuario) {
 
 		Usuario model = modelMapper.map(usuario, Usuario.class);
 
 		try {
 			usuarios.salvar(model);
+
+			return new ResponseEntity<>(modelMapper.map(model, UsuarioJson.class), HttpStatus.OK);
 		} catch (EmailJaCadastradoException e) {
 			return new ResponseEntity<>(new MensagemResponse("E-mail já existente"), HttpStatus.CONFLICT);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(new MensagemResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		return new ResponseEntity<>(modelMapper.map(model, UsuarioJson.class), HttpStatus.OK);
 	}
 }

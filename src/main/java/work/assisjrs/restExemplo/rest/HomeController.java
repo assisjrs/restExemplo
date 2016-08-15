@@ -10,14 +10,4 @@ public class HomeController {
 	public String index() {
 		return "index";
 	}
-	
-	@RequestMapping(value = "/login.html", method = RequestMethod.GET)
-	public String login() {
-		return "login";
-	}
-	
-	@RequestMapping(value = "/perfil.html", method = RequestMethod.GET)
-	public String perfil() {
-		return "perfil";
-	}
 }

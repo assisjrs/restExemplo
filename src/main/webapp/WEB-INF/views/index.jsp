@@ -14,34 +14,51 @@
 		border-style: solid;
 		border-color:#FF0000;
 	}
+	
+	table {
+		border-color: #000;
+		border-style: solid;
+	}
+	
+	section {
+		margin-bottom: 10px;
+	}
+	
+	td {
+		margin-right: 10px;
+		border-right-style: dashed;
+	}
 </style>
 
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 </head>
 <body>
-
 	<section>
-		<h1>Cadastro de usuário</h1>
+	
+	<table>
+	<tr>
+		<td>
+		<h1>Cadastro</h1>
 		
 		<form id="cadastroForm">
 			<div>
 				<label>Nome</label>
 				<div>
-					<input type="text" id="name" name="name" />
+					<input type="text" id="cadastroName" name="name" required/>
 				</div>
 			</div>
 			
 			<div>
 				<label>Email</label>
 				<div>
-					<input type="text" id="email" name="email" />
+					<input id="cadastroEmail" type="email" name="email" required/>
 				</div>
 			</div>
 			
 			<div>
 				<label>Senha</label>
 				<div>
-					<input type="text" id="password" name="password" />
+					<input type="password" id="cadastroPassword" name="password" required/>
 				</div>
 			</div>
 
@@ -49,21 +66,79 @@
 
 			<div>
 				<div>
-					<input type="submit" id="enviarBtn"/>
+					<input type="submit" id="cadastroEnviarBtn"/>
 				</div>
 			</div>
 			
 			<br/>
 		</form>
+		</td>
+		
+		<td>
+		<h1>Login</h1>
+		
+		<form id="loginForm">
+			<div>
+				<label>Email</label>
+				<div>
+					<input id="loginEmail" type="email" name="email" required/>
+				</div>
+			</div>
+			
+			<div>
+				<label>Senha</label>
+				<div>
+					<input type="password" id="loginPassword" name="password" required/>
+				</div>
+			</div>
+
+			<br/>
+
+			<div>
+				<div>
+					<input type="submit" id="loginEnviarBtn"/>
+				</div>
+			</div>
+			
+			<br/>
+		</form>
+		</td>
+		<td>
+		
+		<h1>Perfil</h1>
+		
+		<form id="cadastroForm">
+			<div>
+				<label>Id</label>
+				<div>
+					<input type="text" id="perfilId" name="id" required />
+				</div>
+			</div>
+			
+			<br/>
+
+			<div>
+				<div>
+					<input type="submit" id="perfilEnviarBtn"/>
+				</div>
+			</div>
+			
+			<br/>
+		</form>
+		</td>
+	</tr>
+	</table>		
 	</section>
 	
-	<div id="feedbackContainer">
-		<h4>Ajax Response</h4>
+	<section>
+		<div id="feedbackContainer">
+			<h4>Resposta Ajax</h4>
+		
+			<div id="feedback"></div>
+			<div id="trace"></div>
+		</div>	
+	</section>
 	
-		<div id="feedback"></div>
-		<div id="trace"></div>
-	</div>	
-
 	<footer>
 		<p>
 			<a href="http://github.com/assisjrs/restExemplo">http://github.com/assisjrs/restExemplo/</a>
@@ -72,7 +147,7 @@
 <script>
 	jQuery(document).ready(function($) {
 		$("#cadastroForm").submit(function(event) {
-			$("#enviarBtn").prop("disabled", false);
+			$("#cadastroEnviarBtn").prop("disabled", false);
 
 			event.preventDefault();
 
@@ -82,9 +157,9 @@
 
 	function realizarCadastro() {
 		var json = {};
-		json["name"] = $("#name").val();
-		json["email"] = $("#email").val();
-		json["password"] = $("#password").val();
+		json["name"] = $("#cadastroName").val();
+		json["email"] = $("#cadastroEmail").val();
+		json["password"] = $("#cadastroPassword").val();
 
 		$.ajax({
 			type : "POST",
@@ -106,7 +181,7 @@
 			done : function(e) {
 				console.log("DONE");
 				
-				$("#enviarBtn").prop("disabled", true);
+				$("#cadastroEnviarBtn").prop("disabled", true);
 			}
 		});
 	}
@@ -135,16 +210,5 @@
 	}
 </script>
 
-</body>
-</html><%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Desafio REST</title>
-</head>
-<body>
-Esta aplicacao somente utiliza comunicacao REST
 </body>
 </html>

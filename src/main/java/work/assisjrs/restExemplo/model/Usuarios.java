@@ -1,9 +1,9 @@
 package work.assisjrs.restExemplo.model;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
@@ -17,10 +17,9 @@ public class Usuarios {
 
 	@Transactional
 	public Usuario salvar(Usuario usuario) throws EmailJaCadastradoException {
-		List<?> usuariosComEmailExistente = entityManager.createQuery("FROM Usuario WHERE email = :email")
-				.setParameter("email", usuario.getEmail()).getResultList();
+		Usuario usuarioComEmailExistente = getUsuarioPorEmail(usuario.getEmail());
 
-		if (!usuariosComEmailExistente.isEmpty())
+		if (usuarioComEmailExistente != null)
 			throw new EmailJaCadastradoException(usuario.getEmail());
 
 		usuario.setCreated(new Date());
@@ -40,5 +39,29 @@ public class Usuarios {
 		entityManager.refresh(usuario);
 
 		return usuario;
+	}
+
+	public Usuario usuarioPorEmailESenha(String email, String password)
+			throws UsuarioInexistenteException, UsuarioESenhaInvalidosException {
+		Usuario usuario = getUsuarioPorEmail(email);
+
+		if (usuario == null)
+			throw new UsuarioInexistenteException(email);
+
+		if (!usuario.getPassword().equals(password)) {
+			throw new UsuarioESenhaInvalidosException(email);
+		}
+
+		return usuario;
+	}
+
+	private Usuario getUsuarioPorEmail(String email) {
+		try {
+			return (Usuario) entityManager.createQuery("FROM Usuario WHERE email = :email")
+										  .setParameter("email", email)
+										  .getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 }

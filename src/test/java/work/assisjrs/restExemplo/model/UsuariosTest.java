@@ -142,4 +142,40 @@ public class UsuariosTest {
 
 		usuarios.salvar(usuario);
 	}
+	
+	@Test
+	@DatabaseSetup("/Datasets/UsuariosTest.xml")
+	public void recupararUsuarioPorEmailESenha() throws RestExemploException {
+		Usuario usuario = new Usuario();
+
+		usuario.setEmail("emailJaCadastrado@gmail.com");
+
+		Usuario usuarioEncontrado = usuarios.usuarioPorEmailESenha("emailJaCadastrado@gmail.com", "666");
+		
+		Assert.assertNotNull(usuarioEncontrado);
+	}
+	
+	@Test(expected = UsuarioInexistenteException.class)
+	@DatabaseSetup("/Datasets/UsuariosTest.xml")
+	public void casoOEmailNaoExistaLancarExcecao() throws RestExemploException {
+		Usuario usuario = new Usuario();
+
+		usuario.setEmail("emailJaCadastrado@gmail.com");
+
+		Usuario usuarioEncontrado = usuarios.usuarioPorEmailESenha("emailNaoExiste@gmail.com", "666");
+		
+		Assert.assertNotNull(usuarioEncontrado);
+	}
+	
+	@Test(expected = UsuarioESenhaInvalidosException.class)
+	@DatabaseSetup("/Datasets/UsuariosTest.xml")
+	public void casoOEmailExistaMasASenhaNaoBataLancarExcecao() throws RestExemploException {
+		Usuario usuario = new Usuario();
+
+		usuario.setEmail("emailJaCadastrado@gmail.com");
+
+		Usuario usuarioEncontrado = usuarios.usuarioPorEmailESenha("emailJaCadastrado@gmail.com", "333");
+		
+		Assert.assertNotNull(usuarioEncontrado);
+	}
 }
