@@ -133,7 +133,7 @@ public class UsuariosTest {
 		Assert.assertThat(telefonesEncontrados.size(), is(2));
 	}
 
-	@DatabaseSetup("/UsuariosTest.xml")
+	@DatabaseSetup("/Datasets/UsuariosTest.xml")
 	@Test(expected = EmailJaCadastradoException.class)
 	public void aoCriarOUsuarioCasoEmailJaExistaRetornarExcecao() throws RestExemploException {
 		Usuario usuario = new Usuario();
