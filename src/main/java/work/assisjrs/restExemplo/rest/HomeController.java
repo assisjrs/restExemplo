@@ -11,11 +11,6 @@ public class HomeController {
 		return "index";
 	}
 	
-	@RequestMapping(value = "/cadastro.html", method = RequestMethod.GET)
-	public String cadastro() {
-		return "cadastro";
-	}
-	
 	@RequestMapping(value = "/login.html", method = RequestMethod.GET)
 	public String login() {
 		return "login";
