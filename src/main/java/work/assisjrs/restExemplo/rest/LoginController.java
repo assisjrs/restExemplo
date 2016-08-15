@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import work.assisjrs.restExemplo.model.Usuario;
 import work.assisjrs.restExemplo.model.UsuarioESenhaInvalidosException;
 import work.assisjrs.restExemplo.model.UsuarioInexistenteException;
-import work.assisjrs.restExemplo.model.Usuarios;
+import work.assisjrs.restExemplo.model.entity.Usuario;
+import work.assisjrs.restExemplo.model.service.Authentication;
 
 @RestController
 public class LoginController {
 	@Autowired
-	private Usuarios usuarios;
+	private Authentication authentication;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -28,7 +28,7 @@ public class LoginController {
 
 		Usuario model = new Usuario();
 		try {
-			model = usuarios.usuarioPorEmailESenha(usuario.getEmail(), usuario.getPassword());
+			model = authentication.authenticate(usuario.getEmail(), usuario.getPassword());
 		} catch (UsuarioInexistenteException e) {
 			return new ResponseEntity<>(new MensagemResponse("Usuário e/ou senha inválidos"), HttpStatus.UNAUTHORIZED);
 		} catch (UsuarioESenhaInvalidosException e) {

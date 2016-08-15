@@ -9,6 +9,9 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import work.assisjrs.restExemplo.model.entity.Telefone;
+import work.assisjrs.restExemplo.model.entity.Usuario;
+
 @Transactional
 @Repository
 public class Usuarios {
@@ -41,21 +44,7 @@ public class Usuarios {
 		return usuario;
 	}
 
-	public Usuario usuarioPorEmailESenha(String email, String password)
-			throws UsuarioInexistenteException, UsuarioESenhaInvalidosException {
-		Usuario usuario = getUsuarioPorEmail(email);
-
-		if (usuario == null)
-			throw new UsuarioInexistenteException(email);
-
-		if (!usuario.getPassword().equals(password)) {
-			throw new UsuarioESenhaInvalidosException(email);
-		}
-
-		return usuario;
-	}
-
-	private Usuario getUsuarioPorEmail(String email) {
+	public Usuario getUsuarioPorEmail(String email) {
 		try {
 			return (Usuario) entityManager.createQuery("FROM Usuario WHERE email = :email")
 										  .setParameter("email", email)

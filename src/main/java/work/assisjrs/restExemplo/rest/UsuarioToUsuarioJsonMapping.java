@@ -7,7 +7,7 @@ import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import work.assisjrs.restExemplo.model.Usuario;
+import work.assisjrs.restExemplo.model.entity.Usuario;
 
 @Component
 public class UsuarioToUsuarioJsonMapping {

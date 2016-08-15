@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import work.assisjrs.restExemplo.model.EmailJaCadastradoException;
-import work.assisjrs.restExemplo.model.Usuario;
 import work.assisjrs.restExemplo.model.Usuarios;
+import work.assisjrs.restExemplo.model.entity.Usuario;
 
 @RestController
 public class CadastroUsuarioController {

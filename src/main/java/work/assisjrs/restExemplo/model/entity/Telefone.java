@@ -1,4 +1,4 @@
-package work.assisjrs.restExemplo.model;
+package work.assisjrs.restExemplo.model.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;

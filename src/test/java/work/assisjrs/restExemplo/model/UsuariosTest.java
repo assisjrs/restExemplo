@@ -26,6 +26,8 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
 import work.assisjrs.restExemplo.DBUnitConfig;
+import work.assisjrs.restExemplo.model.entity.Telefone;
+import work.assisjrs.restExemplo.model.entity.Usuario;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { DBUnitConfig.class })
@@ -150,31 +152,7 @@ public class UsuariosTest {
 
 		usuario.setEmail("emailJaCadastrado@gmail.com");
 
-		Usuario usuarioEncontrado = usuarios.usuarioPorEmailESenha("emailJaCadastrado@gmail.com", "666");
-		
-		Assert.assertNotNull(usuarioEncontrado);
-	}
-	
-	@Test(expected = UsuarioInexistenteException.class)
-	@DatabaseSetup("/Datasets/UsuariosTest.xml")
-	public void casoOEmailNaoExistaLancarExcecao() throws RestExemploException {
-		Usuario usuario = new Usuario();
-
-		usuario.setEmail("emailJaCadastrado@gmail.com");
-
-		Usuario usuarioEncontrado = usuarios.usuarioPorEmailESenha("emailNaoExiste@gmail.com", "666");
-		
-		Assert.assertNotNull(usuarioEncontrado);
-	}
-	
-	@Test(expected = UsuarioESenhaInvalidosException.class)
-	@DatabaseSetup("/Datasets/UsuariosTest.xml")
-	public void casoOEmailExistaMasASenhaNaoBataLancarExcecao() throws RestExemploException {
-		Usuario usuario = new Usuario();
-
-		usuario.setEmail("emailJaCadastrado@gmail.com");
-
-		Usuario usuarioEncontrado = usuarios.usuarioPorEmailESenha("emailJaCadastrado@gmail.com", "333");
+		Usuario usuarioEncontrado = usuarios.getUsuarioPorEmail("emailJaCadastrado@gmail.com");
 		
 		Assert.assertNotNull(usuarioEncontrado);
 	}
