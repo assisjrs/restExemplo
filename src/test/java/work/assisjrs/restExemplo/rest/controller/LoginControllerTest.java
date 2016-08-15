@@ -1,8 +1,10 @@
 package work.assisjrs.restExemplo.rest.controller;
 
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -118,7 +120,6 @@ public class LoginControllerTest {
 		jsonResposta.append("    \"id\": 666,");
 		jsonResposta.append("    \"created\": 1471230000000,");
 		jsonResposta.append("    \"modified\": 1471230000000,");
-		jsonResposta.append("    \"token\": null");
 		jsonResposta.append("}");
 
 		mockMvc.perform(post("/login/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8")
@@ -162,6 +163,19 @@ public class LoginControllerTest {
 
 		mockMvc.perform(post("/login/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
 			   .andExpect(jsonPath("$.mensagem").value("Usuário e/ou senha inválidos"));
+	}
+	
+	@Test
+	public void retornarOTokenNoHeader() throws Exception {
+		StringBuilder json = new StringBuilder();
+		
+		json.append("{");
+		json.append("    \"email\": \"joao@silva.org\",");
+		json.append("    \"password\": \"hunter2\"");
+		json.append("}");
+		
+		mockMvc.perform(post("/login/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
+	           .andExpect(header().string("Authorization", notNullValue()));
 	}
 	
 	@Test

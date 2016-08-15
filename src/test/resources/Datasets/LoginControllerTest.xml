@@ -2,7 +2,7 @@
 <dataset>
 	<USUARIO id="666" name="João da Silva" email="joao@silva.org"
 		password="hunter2" created="2016-08-15" modified="2016-08-15"
-		lastLogin="2016-08-15" />
+		lastLogin="2016-08-15" token="w"/>
 	
 	<TELEFONE id="123" ddd="21" number="987654321" USUARIO_ID="666" />
 </dataset>
