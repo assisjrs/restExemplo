@@ -13,7 +13,6 @@ import work.assisjrs.restExemplo.model.EmailJaCadastradoException;
 import work.assisjrs.restExemplo.model.Usuario;
 import work.assisjrs.restExemplo.model.Usuarios;
 
-//@Transactional
 @RestController
 public class CadastroUsuarioController {
 	@Autowired

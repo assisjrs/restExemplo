@@ -39,8 +39,6 @@ public class Usuarios {
 		entityManager.flush();
 		entityManager.refresh(usuario);
 
-		//throw new RuntimeException();
-
 		return usuario;
 	}
 }

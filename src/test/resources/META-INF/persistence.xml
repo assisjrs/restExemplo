@@ -12,7 +12,7 @@
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:file:db/RestExemplo;shutdown=true" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:file:db/RestExemploTest;shutdown=true" />
 			<property name="javax.persistence.jdbc.user" value="sa" />
 			<property name="javax.persistence.jdbc.password" value="" />
 

@@ -5,21 +5,33 @@ import static org.hamcrest.core.IsNot.not;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.TestExecutionListeners.MergeMode;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
-import work.assisjrs.restExemplo.config.HibernateConfig;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+
+import work.assisjrs.restExemplo.DBUnitConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-//@WebAppConfiguration
-@ContextConfiguration(classes = { HibernateConfig.class/*, WebConfig.class*/ })
+@ContextConfiguration(classes = { DBUnitConfig.class })
 @Transactional
+@TestExecutionListeners(value = { DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
+		DbUnitTestExecutionListener.class }, mergeMode = MergeMode.MERGE_WITH_DEFAULTS)
 public class UsuariosTest {
 	@Autowired
 	private Usuarios usuarios;
@@ -72,75 +84,62 @@ public class UsuariosTest {
 		Assert.assertThat(usuario.getLastLogin(), is(usuario.getCreated()));
 	}
 
-	/*
-	@Autowired
-	private SessionFactory sessionFactory;
-	
+	@PersistenceContext
+	private EntityManager entityManager;
+
 	@Test
 	public void aoCriarOUsuarioInserirTelefone() throws RestExemploException {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("email5@gmail.com");
-		
+
 		Telefone telefone = new Telefone();
 		telefone.setDdd("85");
 		telefone.setNumber("9999999");
-		
+
 		usuario.getPhones().add(telefone);
 
 		usuarios.salvar(usuario);
 
-		List<?> telefonesEncontrados = sessionFactory.getCurrentSession().createQuery("FROM Telefone WHERE usuario = :usuario")
-													 .setParameter("usuario", usuario)
-													 .list();
-		
+		List<?> telefonesEncontrados = entityManager.createQuery("FROM Telefone WHERE usuario = :usuario")
+				.setParameter("usuario", usuario).getResultList();
+
 		Assert.assertThat(telefonesEncontrados.size(), is(1));
 	}
-	
+
 	@Test
 	public void aoCriarOUsuarioPodeInserirMaisDeUmTelefone() throws RestExemploException {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("email6@gmail.com");
-		
+
 		Telefone telefone1 = new Telefone();
 		telefone1.setDdd("85");
 		telefone1.setNumber("9999999");
-		
+
 		usuario.getPhones().add(telefone1);
 
 		Telefone telefone2 = new Telefone();
 		telefone2.setDdd("85");
 		telefone2.setNumber("9999999");
-		
+
 		usuario.getPhones().add(telefone2);
-		
+
 		usuarios.salvar(usuario);
 
-		List<?> telefonesEncontrados = sessionFactory.getCurrentSession().createQuery("FROM Telefone WHERE usuario = :usuario")
-				 									 .setParameter("usuario", usuario)
-				 									 .list();
-		
+		List<?> telefonesEncontrados = entityManager.createQuery("FROM Telefone WHERE usuario = :usuario")
+				.setParameter("usuario", usuario).getResultList();
+
 		Assert.assertThat(telefonesEncontrados.size(), is(2));
 	}
-	*/
-	
-	/*
-	@Autowired
-	private StatelessSession statelessSession;
 
+	@DatabaseSetup("/UsuariosTest.xml")
 	@Test(expected = EmailJaCadastradoException.class)
 	public void aoCriarOUsuarioCasoEmailJaExistaRetornarExcecao() throws RestExemploException {
-		InserirDadosBean inserir = new InserirDadosBean();
-		inserir.statelessSession = statelessSession;
-		
-		inserir.inserirUmUsuarioJaExistenteNoBanco();
-		
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("emailJaCadastrado@gmail.com");
 
 		usuarios.salvar(usuario);
 	}
-	*/
 }
