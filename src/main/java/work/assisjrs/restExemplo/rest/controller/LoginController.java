@@ -28,9 +28,10 @@ public class LoginController {
 					method = { RequestMethod.POST }, consumes = "application/json;charset=UTF-8")
 	public ResponseEntity<?> login(@RequestBody UsuarioJson usuario) {
 
-		Usuario model = new Usuario();
 		try {
-			model = authentication.authenticate(usuario.getEmail(), usuario.getPassword());
+			Usuario model = authentication.authenticate(usuario.getEmail(), usuario.getPassword());
+			
+			return new ResponseEntity<>(modelMapper.map(model, UsuarioJson.class), HttpStatus.OK);
 		} catch (UsuarioInexistenteException e) {
 			return new ResponseEntity<>(new MensagemJson("Usuário e/ou senha inválidos"), HttpStatus.UNAUTHORIZED);
 		} catch (UsuarioESenhaInvalidosException e) {
@@ -39,7 +40,5 @@ public class LoginController {
 			e.printStackTrace();
 			return new ResponseEntity<>(new MensagemJson(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		return new ResponseEntity<>(modelMapper.map(model, UsuarioJson.class), HttpStatus.OK);
 	}
 }

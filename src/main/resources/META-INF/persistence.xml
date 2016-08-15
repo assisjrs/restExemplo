@@ -8,8 +8,8 @@
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-		<class>work.assisjrs.restExemplo.model.Usuario</class>
-		<class>work.assisjrs.restExemplo.model.Telefone</class>
+		<class>work.assisjrs.restExemplo.model.entity.Usuario</class>
+		<class>work.assisjrs.restExemplo.model.entity.Telefone</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver" />
@@ -27,8 +27,8 @@
 	<persistence-unit name="restExemploPUTest" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-		<class>work.assisjrs.restExemplo.model.Usuario</class>
-		<class>work.assisjrs.restExemplo.model.Telefone</class>
+		<class>work.assisjrs.restExemplo.model.entity.Usuario</class>
+		<class>work.assisjrs.restExemplo.model.entity.Telefone</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver" />
