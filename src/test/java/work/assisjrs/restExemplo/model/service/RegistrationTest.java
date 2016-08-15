@@ -68,6 +68,19 @@ public class RegistrationTest {
 
 		Assert.assertThat(usuario.getLastLogin(), is(usuario.getCreated()));
 	}
+	
+	@Test
+	public void OTokenDeveraSerPersistidoJuntoComOUsuario() throws RestExemploException {
+		Usuario usuario = new Usuario();
+
+		usuario.setEmail("token@gmail.com");
+
+		registration.register(usuario);
+		
+		String token = new Token().tokenizer(usuario, "REGISTRATION");
+
+		Assert.assertThat(usuario.getToken(), is(token));
+	}
 
 	@DatabaseSetup("/Datasets/UsuariosTest.xml")
 	@Test(expected = EmailJaCadastradoException.class)

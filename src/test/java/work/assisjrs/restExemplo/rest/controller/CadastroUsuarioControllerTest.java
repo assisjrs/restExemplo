@@ -1,8 +1,10 @@
 package work.assisjrs.restExemplo.rest.controller;
 
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -212,6 +214,46 @@ public class CadastroUsuarioControllerTest {
 		
 		mockMvc.perform(post("/cadastro/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
 	           .andExpect(jsonPath("$.last_login").exists());
+	}
+	
+	@Test
+	public void retornarOTokenNoJson() throws Exception {
+		StringBuilder json = new StringBuilder();
+		
+		json.append("{");
+		json.append("    \"name\": \"João da Silva\",");
+		json.append("    \"email\": \"lastLogin@silva.org\",");
+		json.append("    \"password\": \"hunter2\",");
+		json.append("    \"phones\": [");
+		json.append("        {");
+		json.append("            \"number\": \"987654321\",");
+		json.append("            \"ddd\": \"21\"");
+		json.append("        }");
+		json.append("    ]");
+		json.append("}");
+		
+		mockMvc.perform(post("/cadastro/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
+	           .andExpect(jsonPath("$.token").exists());
+	}
+	
+	@Test
+	public void retornarOTokenNoHeader() throws Exception {
+		StringBuilder json = new StringBuilder();
+		
+		json.append("{");
+		json.append("    \"name\": \"João da Silva\",");
+		json.append("    \"email\": \"lastLogin@silva.org\",");
+		json.append("    \"password\": \"hunter2\",");
+		json.append("    \"phones\": [");
+		json.append("        {");
+		json.append("            \"number\": \"987654321\",");
+		json.append("            \"ddd\": \"21\"");
+		json.append("        }");
+		json.append("    ]");
+		json.append("}");
+		
+		mockMvc.perform(post("/cadastro/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
+	           .andExpect(header().string("Authorization", notNullValue()));
 	}
 	
 	@Test

@@ -1,5 +1,7 @@
 package work.assisjrs.restExemplo.rest.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,15 +25,17 @@ public class CadastroUsuarioController {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	@RequestMapping(value = "/cadastro/", produces = "application/json;charset=UTF-8", method = {
-			RequestMethod.POST }, consumes = "application/json;charset=UTF-8")
-	public ResponseEntity<?> salvar(@RequestBody UsuarioJson usuario) {
+	@RequestMapping(value = "/cadastro/", produces = "application/json;charset=UTF-8",
+					method = { RequestMethod.POST }, consumes = "application/json;charset=UTF-8")
+	public ResponseEntity<?> salvar(@RequestBody UsuarioJson usuario, HttpServletResponse response) {
 
 		Usuario model = modelMapper.map(usuario, Usuario.class);
 
 		try {
 			registration.register(model);
 
+			response.addHeader("Authorization", model.getToken());
+			
 			return new ResponseEntity<>(modelMapper.map(model, UsuarioJson.class), HttpStatus.OK);
 		} catch (EmailJaCadastradoException e) {
 			return new ResponseEntity<>(new MensagemJson("E-mail já existente"), HttpStatus.CONFLICT);

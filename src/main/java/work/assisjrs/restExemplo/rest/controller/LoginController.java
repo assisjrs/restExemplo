@@ -24,6 +24,7 @@ public class LoginController {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	//'Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization'
 	@RequestMapping(value = "/login/", produces = "application/json;charset=UTF-8",
 					method = { RequestMethod.POST }, consumes = "application/json;charset=UTF-8")
 	public ResponseEntity<?> login(@RequestBody UsuarioJson usuario) {

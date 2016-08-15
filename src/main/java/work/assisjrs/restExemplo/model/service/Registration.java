@@ -13,6 +13,9 @@ public class Registration {
 	@Autowired
 	private Usuarios usuarios;
 	
+	@Autowired
+	private Token token;
+	
 	public Usuario register(Usuario usuario) throws EmailJaCadastradoException {
 		Usuario usuarioComEmailExistente = usuarios.getUsuarioPorEmail(usuario.getEmail());
 
@@ -22,6 +25,8 @@ public class Registration {
 		usuarios.salvar(usuario);
 		
 		usuario.setLastLogin(usuario.getCreated());
+		
+		usuario.setToken(token.tokenizer(usuario, "REGISTRATION"));
 		
 		return usuario;
 	}

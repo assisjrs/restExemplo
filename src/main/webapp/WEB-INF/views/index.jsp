@@ -145,6 +145,8 @@
 		</p>
 	</footer>
 <script>
+	jQuery.support.cors = true;
+
 	jQuery(document).ready(function($) {
 		$("#cadastroForm").submit(function(event) {
 			$("#cadastroEnviarBtn").prop("disabled", false);
