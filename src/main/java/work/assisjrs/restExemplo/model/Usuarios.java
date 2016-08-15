@@ -1,6 +1,7 @@
 package work.assisjrs.restExemplo.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -20,27 +21,38 @@ public class Usuarios {
 
 	@Transactional
 	public Usuario salvar(Usuario usuario) {
-		usuario.setCreated(new Date());
-		
-		entityManager.persist(usuario);
+		Usuario usuarioManaged = usuario;
 
-		for (Telefone telefone : usuario.getPhones()) {
-			telefone.setUsuario(usuario);
+		Date modified = new Date();
+		
+		if (usuario.getId() == null) {
+			usuarioManaged.setCreated(modified);
+
+			entityManager.persist(usuarioManaged);
+		}
+
+		if (!entityManager.contains(usuario))
+			usuarioManaged = entityManager.merge(usuario);
+
+		List<Telefone> telefones = usuarioManaged.getPhones();
+
+		for (Telefone telefone : telefones) {
+			telefone.setUsuario(usuarioManaged);
 
 			entityManager.persist(telefone);
 		}
 
+		usuarioManaged.setModified(modified);
+		
 		entityManager.flush();
-		entityManager.refresh(usuario);
 
-		return usuario;
+		return usuarioManaged;
 	}
 
 	public Usuario getUsuarioPorEmail(String email) {
 		try {
-			return (Usuario) entityManager.createQuery("FROM Usuario WHERE email = :email")
-										  .setParameter("email", email)
-										  .getSingleResult();
+			return (Usuario) entityManager.createQuery("FROM Usuario WHERE email = :email").setParameter("email", email)
+					.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}

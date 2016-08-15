@@ -118,8 +118,7 @@ public class LoginControllerTest {
 		jsonResposta.append("    \"id\": 666,");
 		jsonResposta.append("    \"created\": 1471230000000,");
 		jsonResposta.append("    \"modified\": 1471230000000,");
-		jsonResposta.append("    \"token\": null,");
-		jsonResposta.append("    \"last_login\": 1471230000000");
+		jsonResposta.append("    \"token\": null");
 		jsonResposta.append("}");
 
 		mockMvc.perform(post("/login/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8")

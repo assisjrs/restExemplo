@@ -37,9 +37,12 @@ import work.assisjrs.restExemplo.model.entity.Usuario;
 public class UsuariosTest {
 	@Autowired
 	private Usuarios usuarios;
+	
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Test
-	public void deveSalvarOUsuario() throws RestExemploException {
+	public void devePersistirOUsuario() throws RestExemploException {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("email1@gmail.com");
@@ -47,6 +50,42 @@ public class UsuariosTest {
 		usuarios.salvar(usuario);
 
 		Assert.assertThat(usuario.getId(), not(0));
+	}
+	
+	@DatabaseSetup("/Datasets/UsuariosTest.xml")
+	@Test
+	public void deveAtualizarOUsuario() throws RestExemploException {
+		Usuario usuario = new Usuario();
+
+		usuario.setId(999999L);
+		usuario.setName("nomeAlterado");
+		usuario.setEmail("emailJaCadastrado@gmail.com");
+		usuario.setPassword("666");
+		usuario.setCreated(new Date("08/15/2016 00:00:00"));
+		
+		usuarios.salvar(usuario);
+
+		Assert.assertThat(usuario.getName(), is("nomeAlterado"));
+	}
+	
+	@DatabaseSetup("/Datasets/UsuariosTest.xml")
+	@Test
+	public void deveAtualizarOLastModified() throws RestExemploException {
+		Usuario usuario = new Usuario();
+
+		usuario.setId(999999L);
+		usuario.setName("nomeAlterado");
+		usuario.setEmail("emailJaCadastrado@gmail.com");
+		usuario.setPassword("666");
+		usuario.setCreated(new Date("08/15/2016 00:00:00"));
+		
+		Date modifiedInicial = new Date("08/15/2016 00:00:00");
+		
+		usuario.setModified(modifiedInicial);
+		
+		Usuario usuarioGerenciado = usuarios.salvar(usuario);
+
+		Assert.assertThat(usuarioGerenciado.getModified().toInstant().getNano(), is(not(modifiedInicial.toInstant().getNano())));
 	}
 	
 	@Test
@@ -61,9 +100,6 @@ public class UsuariosTest {
 
 		Assert.assertThat(created.before(Date.from(Instant.now())), is(true));
 	}
-
-	@PersistenceContext
-	private EntityManager entityManager;
 
 	@Test
 	public void aoCriarOUsuarioInserirTelefone() throws RestExemploException {

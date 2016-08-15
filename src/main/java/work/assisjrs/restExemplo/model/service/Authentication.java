@@ -1,5 +1,7 @@
 package work.assisjrs.restExemplo.model.service;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ public class Authentication {
 		if (!usuario.getPassword().equals(password)) {
 			throw new UsuarioESenhaInvalidosException(email);
 		}
+		
+		usuario.setLastLogin(new Date());
 
 		return usuario;
 	}

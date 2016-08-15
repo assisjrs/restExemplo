@@ -1,5 +1,8 @@
 package work.assisjrs.restExemplo.model.service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +21,6 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import work.assisjrs.restExemplo.DBUnitConfig;
 import work.assisjrs.restExemplo.model.RestExemploException;
 import work.assisjrs.restExemplo.model.entity.Usuario;
-import work.assisjrs.restExemplo.model.service.Authentication;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { DBUnitConfig.class })
@@ -28,6 +30,9 @@ import work.assisjrs.restExemplo.model.service.Authentication;
 public class AuthenticationTest {
 	@Autowired
 	private Authentication authentication;
+	
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Test
 	@DatabaseSetup("/Datasets/UsuariosTest.xml")
@@ -39,6 +44,14 @@ public class AuthenticationTest {
 		Usuario usuarioEncontrado = authentication.authenticate("emailJaCadastrado@gmail.com", "666");
 		
 		Assert.assertNotNull(usuarioEncontrado);
+	}
+	
+	@Test
+	@DatabaseSetup("/Datasets/UsuariosTest.xml")
+	public void aoAutenticarModificarOLastLogin() throws RestExemploException {
+		Usuario usuarioEncontrado = authentication.authenticate("emailJaCadastrado@gmail.com", "666");
+		
+		Assert.assertTrue(usuarioEncontrado.getLastLogin().after(usuarioEncontrado.getCreated()));
 	}
 	
 	@Test(expected = UsuarioInexistenteException.class)

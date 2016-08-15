@@ -21,9 +21,8 @@ public class Registration {
 
 		usuarios.salvar(usuario);
 		
-		usuario.setModified(usuario.getCreated());
 		usuario.setLastLogin(usuario.getCreated());
-
+		
 		return usuario;
 	}
 }
