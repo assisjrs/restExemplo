@@ -19,17 +19,9 @@ public class Usuarios {
 	private EntityManager entityManager;
 
 	@Transactional
-	public Usuario salvar(Usuario usuario) throws EmailJaCadastradoException {
-		Usuario usuarioComEmailExistente = getUsuarioPorEmail(usuario.getEmail());
-
-		if (usuarioComEmailExistente != null)
-			throw new EmailJaCadastradoException(usuario.getEmail());
-
+	public Usuario salvar(Usuario usuario) {
 		usuario.setCreated(new Date());
-
-		usuario.setModified(usuario.getCreated());
-		usuario.setLastLogin(usuario.getCreated());
-
+		
 		entityManager.persist(usuario);
 
 		for (Telefone telefone : usuario.getPhones()) {

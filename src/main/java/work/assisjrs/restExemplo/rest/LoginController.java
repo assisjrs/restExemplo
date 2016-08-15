@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import work.assisjrs.restExemplo.model.UsuarioESenhaInvalidosException;
-import work.assisjrs.restExemplo.model.UsuarioInexistenteException;
 import work.assisjrs.restExemplo.model.entity.Usuario;
 import work.assisjrs.restExemplo.model.service.Authentication;
+import work.assisjrs.restExemplo.model.service.UsuarioESenhaInvalidosException;
+import work.assisjrs.restExemplo.model.service.UsuarioInexistenteException;
 
 @RestController
 public class LoginController {
@@ -30,12 +30,12 @@ public class LoginController {
 		try {
 			model = authentication.authenticate(usuario.getEmail(), usuario.getPassword());
 		} catch (UsuarioInexistenteException e) {
-			return new ResponseEntity<>(new MensagemResponse("Usuário e/ou senha inválidos"), HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(new MensagemJson("Usuário e/ou senha inválidos"), HttpStatus.UNAUTHORIZED);
 		} catch (UsuarioESenhaInvalidosException e) {
-			return new ResponseEntity<>(new MensagemResponse("Usuário e/ou senha inválidos"), HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(new MensagemJson("Usuário e/ou senha inválidos"), HttpStatus.UNAUTHORIZED);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(new MensagemResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(new MensagemJson(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 		return new ResponseEntity<>(modelMapper.map(model, UsuarioJson.class), HttpStatus.OK);

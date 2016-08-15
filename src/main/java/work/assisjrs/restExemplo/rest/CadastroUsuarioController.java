@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import work.assisjrs.restExemplo.model.EmailJaCadastradoException;
-import work.assisjrs.restExemplo.model.Usuarios;
 import work.assisjrs.restExemplo.model.entity.Usuario;
+import work.assisjrs.restExemplo.model.service.EmailJaCadastradoException;
+import work.assisjrs.restExemplo.model.service.Registration;
 
 @RestController
 public class CadastroUsuarioController {
 	@Autowired
-	private Usuarios usuarios;
+	private Registration registration;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -28,14 +28,14 @@ public class CadastroUsuarioController {
 		Usuario model = modelMapper.map(usuario, Usuario.class);
 
 		try {
-			usuarios.salvar(model);
+			registration.register(model);
 
 			return new ResponseEntity<>(modelMapper.map(model, UsuarioJson.class), HttpStatus.OK);
 		} catch (EmailJaCadastradoException e) {
-			return new ResponseEntity<>(new MensagemResponse("E-mail já existente"), HttpStatus.CONFLICT);
+			return new ResponseEntity<>(new MensagemJson("E-mail já existente"), HttpStatus.CONFLICT);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(new MensagemResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(new MensagemJson(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

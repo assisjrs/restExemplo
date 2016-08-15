@@ -1,4 +1,10 @@
-package work.assisjrs.restExemplo.model;
+package work.assisjrs.restExemplo.model.service;
+
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
+
+import java.time.Instant;
+import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,51 +22,60 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
 import work.assisjrs.restExemplo.DBUnitConfig;
+import work.assisjrs.restExemplo.model.RestExemploException;
 import work.assisjrs.restExemplo.model.entity.Usuario;
-import work.assisjrs.restExemplo.model.service.Authentication;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { DBUnitConfig.class })
 @Transactional
 @TestExecutionListeners(value = { DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
 		DbUnitTestExecutionListener.class }, mergeMode = MergeMode.MERGE_WITH_DEFAULTS)
-public class AuthenticationTest {
+public class RegistrationTest {
 	@Autowired
-	private Authentication authentication;
+	private Registration registration;
 
 	@Test
-	@DatabaseSetup("/Datasets/UsuariosTest.xml")
-	public void authenticate() throws RestExemploException {
+	public void deveSalvarOUsuario() throws RestExemploException {
 		Usuario usuario = new Usuario();
 
-		usuario.setEmail("emailJaCadastrado@gmail.com");
+		usuario.setEmail("email1@gmail.com");
 
-		Usuario usuarioEncontrado = authentication.authenticate("emailJaCadastrado@gmail.com", "666");
-		
-		Assert.assertNotNull(usuarioEncontrado);
+		registration.register(usuario);
+
+		Assert.assertThat(usuario.getId(), not(0));
 	}
-	
-	@Test(expected = UsuarioInexistenteException.class)
-	@DatabaseSetup("/Datasets/UsuariosTest.xml")
-	public void casoOEmailNaoExistaLancarExcecao() throws RestExemploException {
+
+	@Test
+	public void aoCriarOUsuarioInserirModifiedIgualACreated() throws RestExemploException {
 		Usuario usuario = new Usuario();
 
-		usuario.setEmail("emailJaCadastrado@gmail.com");
+		usuario.setEmail("email3@gmail.com");
 
-		Usuario usuarioEncontrado = authentication.authenticate("emailNaoExiste@gmail.com", "666");
-		
-		Assert.assertNotNull(usuarioEncontrado);
+		registration.register(usuario);
+
+		Date modified = usuario.getModified();
+
+		Assert.assertThat(modified.before(Date.from(Instant.now())), is(true));
 	}
-	
-	@Test(expected = UsuarioESenhaInvalidosException.class)
+
+	@Test
+	public void aoCriarOUsuarioInserirLastLoginIgualACreated() throws RestExemploException {
+		Usuario usuario = new Usuario();
+
+		usuario.setEmail("email4@gmail.com");
+
+		registration.register(usuario);
+
+		Assert.assertThat(usuario.getLastLogin(), is(usuario.getCreated()));
+	}
+
 	@DatabaseSetup("/Datasets/UsuariosTest.xml")
-	public void casoOEmailExistaMasASenhaNaoBataLancarExcecao() throws RestExemploException {
+	@Test(expected = EmailJaCadastradoException.class)
+	public void aoCriarOUsuarioCasoEmailJaExistaRetornarExcecao() throws RestExemploException {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("emailJaCadastrado@gmail.com");
 
-		Usuario usuarioEncontrado = authentication.authenticate("emailJaCadastrado@gmail.com", "333");
-		
-		Assert.assertNotNull(usuarioEncontrado);
+		registration.register(usuario);
 	}
 }

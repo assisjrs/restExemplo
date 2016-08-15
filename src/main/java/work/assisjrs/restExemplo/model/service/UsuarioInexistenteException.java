@@ -1,4 +1,6 @@
-package work.assisjrs.restExemplo.model;
+package work.assisjrs.restExemplo.model.service;
+
+import work.assisjrs.restExemplo.model.RestExemploException;
 
 public class UsuarioInexistenteException extends RestExemploException {
 	private static final long serialVersionUID = 4112459206862734376L;

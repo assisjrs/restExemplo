@@ -1,4 +1,6 @@
-package work.assisjrs.restExemplo.model;
+package work.assisjrs.restExemplo.model.service;
+
+import work.assisjrs.restExemplo.model.RestExemploException;
 
 public class UsuarioESenhaInvalidosException  extends RestExemploException {
 	private static final long serialVersionUID = 4550231617168419783L;

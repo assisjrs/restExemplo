@@ -1,4 +1,4 @@
-package work.assisjrs.restExemplo.model;
+package work.assisjrs.restExemplo.model.entity;
 
 import org.junit.Assert;
 import org.junit.Test;

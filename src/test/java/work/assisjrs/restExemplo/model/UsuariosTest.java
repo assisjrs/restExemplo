@@ -48,7 +48,7 @@ public class UsuariosTest {
 
 		Assert.assertThat(usuario.getId(), not(0));
 	}
-
+	
 	@Test
 	public void aoCriarOUsuarioInserirCreated() throws RestExemploException {
 		Usuario usuario = new Usuario();
@@ -60,30 +60,6 @@ public class UsuariosTest {
 		Date created = usuario.getCreated();
 
 		Assert.assertThat(created.before(Date.from(Instant.now())), is(true));
-	}
-
-	@Test
-	public void aoCriarOUsuarioInserirModified() throws RestExemploException {
-		Usuario usuario = new Usuario();
-
-		usuario.setEmail("email3@gmail.com");
-
-		usuarios.salvar(usuario);
-
-		Date modified = usuario.getModified();
-
-		Assert.assertThat(modified.before(Date.from(Instant.now())), is(true));
-	}
-
-	@Test
-	public void aoCriarOUsuarioInserirLastLoginIgualACreated() throws RestExemploException {
-		Usuario usuario = new Usuario();
-
-		usuario.setEmail("email4@gmail.com");
-
-		usuarios.salvar(usuario);
-
-		Assert.assertThat(usuario.getLastLogin(), is(usuario.getCreated()));
 	}
 
 	@PersistenceContext
@@ -135,19 +111,9 @@ public class UsuariosTest {
 		Assert.assertThat(telefonesEncontrados.size(), is(2));
 	}
 
-	@DatabaseSetup("/Datasets/UsuariosTest.xml")
-	@Test(expected = EmailJaCadastradoException.class)
-	public void aoCriarOUsuarioCasoEmailJaExistaRetornarExcecao() throws RestExemploException {
-		Usuario usuario = new Usuario();
-
-		usuario.setEmail("emailJaCadastrado@gmail.com");
-
-		usuarios.salvar(usuario);
-	}
-	
 	@Test
 	@DatabaseSetup("/Datasets/UsuariosTest.xml")
-	public void recupararUsuarioPorEmailESenha() throws RestExemploException {
+	public void recupararUsuarioPorEmail() throws RestExemploException {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("emailJaCadastrado@gmail.com");

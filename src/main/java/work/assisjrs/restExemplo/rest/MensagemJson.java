@@ -1,9 +1,9 @@
 package work.assisjrs.restExemplo.rest;
 
-public class MensagemResponse {
+public class MensagemJson {
 	private String mensagem;
 
-	public MensagemResponse(String mensagem) {
+	public MensagemJson(String mensagem) {
 		this.mensagem = mensagem;
 	}
 	
