@@ -1,8 +1,8 @@
 package work.assisjrs.restExemplo.rest;
 
 public class TelefoneJson {
-	private String number;
 	private String ddd;
+	private String number;
 
 	public String getNumber() {
 		return number;

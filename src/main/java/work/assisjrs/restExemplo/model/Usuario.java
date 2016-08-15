@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +20,7 @@ import javax.persistence.TemporalType;
 public class Usuario {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuarioSequence")
 	@Id
-	private int id;
+	private Long id;
 
 	@Column(nullable = false, unique = true)
 	private String email;
@@ -28,8 +29,8 @@ public class Usuario {
 
 	private String password;
 
-	@OneToMany(mappedBy = "usuario")
-	private List<Telefone> phones = new ArrayList<Telefone>();
+	@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+	private List<Telefone> phones;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
@@ -89,15 +90,18 @@ public class Usuario {
 		this.lastLogin = lastLogin;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
 	public List<Telefone> getPhones() {
+		if (phones == null)
+			phones = new ArrayList<Telefone>();
+
 		return phones;
 	}
 
@@ -109,7 +113,7 @@ public class Usuario {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = (int) (prime * result + id);
 		return result;
 	}
 

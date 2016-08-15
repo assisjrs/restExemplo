@@ -4,23 +4,33 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+//@Transactional
 @Repository
-public class Usuarios
-{
-	@PersistenceContext
-	private EntityManager entityManager;
-	
-	@Transactional
+public class Usuarios {
+	// @PersistenceContext
+	// private EntityManager entityManager;
+
+	// @Transactional
 	public Usuario salvar(Usuario usuario) throws EmailJaCadastradoException {
+		EntityManagerFactory factory;
+
+		try {
+			factory = Persistence.createEntityManagerFactory("restExemploPU");
+		} catch (Exception e) {
+			factory = Persistence.createEntityManagerFactory("default");
+		}
+
+		EntityManager entityManager = factory.createEntityManager();
+
+		entityManager.getTransaction().begin();
+
 		List<?> usuariosComEmailExistente = entityManager.createQuery("FROM Usuario WHERE email = :email")
-												   		 .setParameter("email", usuario.getEmail())
-												   		 .getResultList();
+				.setParameter("email", usuario.getEmail()).getResultList();
 
 		if (!usuariosComEmailExistente.isEmpty())
 			throw new EmailJaCadastradoException(usuario.getEmail());
@@ -31,16 +41,19 @@ public class Usuarios
 		usuario.setLastLogin(usuario.getCreated());
 
 		entityManager.persist(usuario);
-		
+
 		for (Telefone telefone : usuario.getPhones()) {
 			telefone.setUsuario(usuario);
-			
+
 			entityManager.persist(telefone);
 		}
-		
+
 		entityManager.flush();
 		entityManager.refresh(usuario);
-		
+
+		entityManager.getTransaction().commit();
+		entityManager.close();
+
 		return usuario;
 	}
 }

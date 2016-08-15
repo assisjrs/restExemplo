@@ -12,13 +12,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
-
-import work.assisjrs.restExemplo.config.HibernateConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { HibernateConfig.class })
-@Transactional
+//@WebAppConfiguration
+@ContextConfiguration(classes = { work.assisjrs.restExemplo.HibernateConfig.class/*, WebConfig.class*/ })
+//@Transactional
 public class UsuariosTest {
 	@Autowired
 	private Usuarios usuarios;

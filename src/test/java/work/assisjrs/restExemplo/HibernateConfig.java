@@ -1,10 +1,22 @@
-package work.assisjrs.restExemplo.config;
+package work.assisjrs.restExemplo;
 
-//@Configuration
-//@ComponentScan({ "work.assisjrs.restExemplo.model" })
-//@EnableTransactionManagement
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+@Configuration
+@ComponentScan({ "work.assisjrs.restExemplo.model" })
+@EnableTransactionManagement
 public class HibernateConfig {
-	/*
 	@Autowired
 	@Bean
 	public DataSource getDataSource() {
@@ -12,7 +24,7 @@ public class HibernateConfig {
 
 		ds.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
 		// ds.setUrl("jdbc:hsqldb:mem:RestExemplo;shutdown=true");
-		ds.setUrl("jdbc:hsqldb:file:db/RestExemplo;shutdown=true");
+		ds.setUrl("jdbc:hsqldb:file:db/RestExemploTest;shutdown=true");
 
 		ds.setUsername("sa");
 		ds.setPassword("");
@@ -40,5 +52,4 @@ public class HibernateConfig {
 	public JpaTransactionManager getTransactionManager(EntityManagerFactory entityManagerFactory) {
 		return new JpaTransactionManager(entityManagerFactory);
 	}
-	*/
 }

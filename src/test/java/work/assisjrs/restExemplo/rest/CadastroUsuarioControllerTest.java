@@ -20,13 +20,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import work.assisjrs.restExemplo.config.HibernateConfig;
 import work.assisjrs.restExemplo.config.WebConfig; 
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = { WebConfig.class, HibernateConfig.class })
+@ContextConfiguration(classes = { work.assisjrs.restExemplo.HibernateConfig.class, WebConfig.class })
 @Transactional
 public class CadastroUsuarioControllerTest {
 	@Autowired
@@ -163,7 +162,7 @@ public class CadastroUsuarioControllerTest {
 		json.append("}");
 		
 		mockMvc.perform(post("/cadastro/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
-	           .andExpect(jsonPath("$.created").value(IsNot.not(0)));
+	           .andExpect(jsonPath("$.created").exists());
 	}
 	
 	@Test
@@ -172,7 +171,7 @@ public class CadastroUsuarioControllerTest {
 		
 		json.append("{");
 		json.append("    \"name\": \"João da Silva\",");
-		json.append("    \"email\": \"id@gmail.com\",");
+		json.append("    \"email\": \"modified@gmail.com\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");
 		json.append("        {");
@@ -183,7 +182,7 @@ public class CadastroUsuarioControllerTest {
 		json.append("}");
 		
 		mockMvc.perform(post("/cadastro/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
-	           .andExpect(jsonPath("$.modified").value(IsNot.not(0)));
+	           .andExpect(jsonPath("$.modified").exists());
 	}
 	
 	@Test
@@ -203,7 +202,7 @@ public class CadastroUsuarioControllerTest {
 		json.append("}");
 		
 		mockMvc.perform(post("/cadastro/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
-	           .andExpect(jsonPath("$.last_login").value(IsNot.not(0)));
+	           .andExpect(jsonPath("$.last_login").exists());
 	}
 	/*
 	@Autowired

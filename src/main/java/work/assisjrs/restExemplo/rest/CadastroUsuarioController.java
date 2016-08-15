@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,9 +13,9 @@ import work.assisjrs.restExemplo.model.EmailJaCadastradoException;
 import work.assisjrs.restExemplo.model.Usuario;
 import work.assisjrs.restExemplo.model.Usuarios;
 
-@Transactional
+//@Transactional
 @RestController
-public class CadastroUsuarioController {	
+public class CadastroUsuarioController {
 	@Autowired
 	private Usuarios usuarios;
 
@@ -24,7 +23,7 @@ public class CadastroUsuarioController {
 	private ModelMapper modelMapper;
 
 	@RequestMapping(value = "/cadastro/", produces = "application/json;charset=UTF-8",
-					method = { RequestMethod.POST })
+					method = { RequestMethod.POST }, consumes = "application/json;charset=UTF-8")
 	public ResponseEntity<?> salvar(@RequestBody UsuarioJson usuario) {
 
 		Usuario model = modelMapper.map(usuario, Usuario.class);
@@ -33,7 +32,8 @@ public class CadastroUsuarioController {
 			usuarios.salvar(model);
 		} catch (EmailJaCadastradoException e) {
 			return new ResponseEntity<>(new MensagemResponse("E-mail já existente"), HttpStatus.CONFLICT);
-		}catch (Exception e) {
+		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>(new MensagemResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

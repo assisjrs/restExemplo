@@ -27,7 +27,7 @@
 			<div>
 				<label>Nome</label>
 				<div>
-					<input type=text id="name" name="name" />
+					<input type="text" id="name" name="name" />
 				</div>
 			</div>
 			
@@ -83,7 +83,7 @@
 
 	function realizarCadastro() {
 		var json = {};
-		json["username"] = $("#name").val();
+		json["name"] = $("#name").val();
 		json["email"] = $("#email").val();
 		json["password"] = $("#password").val();
 
@@ -97,12 +97,12 @@
 			success : function(data) {
 				console.log("SUCCESS: ", data);
 				
-				display(data);
+				display(data, true);
 			},
 			error : function(e) {
 				console.log("ERROR: ", e);
 				
-				display(e);
+				display(e, false);
 			},
 			done : function(e) {
 				console.log("DONE");
@@ -112,22 +112,27 @@
 		});
 	}
 
-	function display(data) {
+	function display(data, sucesso) {
 		$("#feedbackContainer").removeClass("erro");
 		$("#feedbackContainer").removeClass("sucesso");
 		
-		if(data["status"] == 200){
+		var feedback = "";
+		var trace = "";
+		
+		if(sucesso){
+			feedback = "<pre>" + JSON.stringify(data, null, 4) + "</pre>";
+			
 			$("#feedbackContainer").addClass("sucesso");
 		} else {
+			feedback = "<pre>" + JSON.stringify(data.responseJSON, null, 4) + "</pre>";
+			
 			$("#feedbackContainer").addClass("erro");
-			//$("#trace").visible(true);
+						
+			trace = "<pre>" + JSON.stringify(data, null, 4) + "</pre>";
 		}
 		
-		var feedback = "<pre>" + JSON.stringify(data.responseJSON, null, 4) + "</pre>";
-		$('#feedback').html(feedback);
-		
-		var trace = "<pre>" + JSON.stringify(data, null, 4) + "</pre>";
 		$('#trace').html(trace);
+		$('#feedback').html(feedback);
 	}
 </script>
 

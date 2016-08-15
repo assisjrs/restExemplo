@@ -11,12 +11,13 @@ public class UsuarioJson {
 	private String password;
 	private List<TelefoneJson> phones;
 	
-	private int id;
+	private Long id;
 	private Date created;
 	private Date modified;
 
 	@JsonProperty("last_login") 
 	private Date lastLogin;
+	
 	private String token;
 
 	public String getName() {
@@ -51,11 +52,11 @@ public class UsuarioJson {
 		this.phones = phones;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
