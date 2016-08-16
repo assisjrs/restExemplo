@@ -35,16 +35,14 @@ public class PerfilController {
 		if (headerToken == null || headerToken.isEmpty())
 			return new ResponseEntity<>(new MensagemJson("Não autorizado"), HttpStatus.UNAUTHORIZED);
 
-		Usuario usuarioLogado = new Usuario();
-
 		try {
-			usuarioLogado = token.getSigned(id, headerToken);
+			Usuario usuarioLogado = token.getSigned(id, headerToken);
+			
+			response.addHeader("Authorization", headerToken);
+
+			return new ResponseEntity<>(modelMapper.map(usuarioLogado, UsuarioJson.class), HttpStatus.OK);
 		} catch (LoginMenorQue30MinutosException | TokenInvalidoException e) {
 			return new ResponseEntity<>(new MensagemJson("Não autorizado"), HttpStatus.UNAUTHORIZED);
 		}
-
-		response.addHeader("Authorization", headerToken);
-
-		return new ResponseEntity<>(modelMapper.map(usuarioLogado, UsuarioJson.class), HttpStatus.OK);
 	}
 }

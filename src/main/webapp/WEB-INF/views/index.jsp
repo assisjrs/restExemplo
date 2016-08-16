@@ -251,14 +251,20 @@
 	
 	function realizarPerfil() {
 		$('#dadosAtuaisTokenAnterior').html($("#dadosAtuaisToken").html());
-		$('#dadosAtuaisUltimaOperacao').html('/perfil/' + json["id"]);
+		$('#dadosAtuaisUltimaOperacao').html('/perfil/' + $("#perfilId").val());
 		
 		$.ajax({
 			type : "GET",
 			contentType : "application/json;charset=UTF-8",
 			url : "/perfil/" + $("#perfilId").val(),
 			timeout : 100000,
-			//TODO: Inserir o token no cabeçalho http
+			headers: {"Authorization": $("#dadosAtuaisToken").html()},
+			/*
+			beforeSend: function (request)
+		    {
+		        request.setRequestHeader("Authorization", $("#dadosAtuaisToken").html());
+		    },
+		    */
 			success : function(data) {
 				console.log("SUCCESS: ", data);
 				
