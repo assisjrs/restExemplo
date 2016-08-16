@@ -41,7 +41,7 @@ public class RegistrationTest {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("email1@gmail.com");
-		usuario.setPassword("senha");
+		usuario.setPassword("stringViaHash");
 
 		registration.register(usuario);
 
@@ -53,7 +53,7 @@ public class RegistrationTest {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("email3@gmail.com");
-		usuario.setPassword("senha");
+		usuario.setPassword("stringViaHash");
 
 		registration.register(usuario);
 
@@ -67,7 +67,7 @@ public class RegistrationTest {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("email4@gmail.com");
-		usuario.setPassword("senha");
+		usuario.setPassword("stringViaHash");
 
 		registration.register(usuario);
 
@@ -77,15 +77,27 @@ public class RegistrationTest {
 	}
 	
 	@Test
-	public void OTokenDeveraSerPersistidoJuntoComOUsuario() throws RestExemploException {
+	public void oTokenDeveraSerPersistidoJuntoComOUsuario() throws RestExemploException {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("token@gmail.com");
-		usuario.setPassword("senha");
+		usuario.setPassword("stringViaHash");
 
 		registration.register(usuario);
 		
 		Assert.assertThat(usuario.getToken(), notNullValue());
+	}
+	
+	@Test
+	public void aSenhaDeveSerPersistidaComHash() throws RestExemploException {
+		Usuario usuario = new Usuario();
+
+		usuario.setEmail("token@gmail.com");
+		usuario.setPassword("stringViaHash");
+
+		registration.register(usuario);
+		
+		Assert.assertThat(usuario.getPassword(), is("89e98fa7ac946099dd2504e6c9487993"));
 	}
 
 	@DatabaseSetup("/Datasets/UsuariosTest.xml")
@@ -94,7 +106,7 @@ public class RegistrationTest {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("emailJaCadastrado@gmail.com");
-		usuario.setPassword("senha");
+		usuario.setPassword("stringViaHash");
 
 		registration.register(usuario);
 	}

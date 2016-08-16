@@ -45,6 +45,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa' 
         
     compile 'org.apache.commons:commons-dbcp2:2.0'
+    compile 'commons-codec:commons-codec:1.10'
     
     //compile group: 'org.hibernate', name: 'hibernate-core', version: '3.6.7.Final'
     compile  'org.hibernate:hibernate-core:4.3.6.Final'

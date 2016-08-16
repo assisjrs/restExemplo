@@ -108,7 +108,7 @@ public class LoginControllerTest {
 		jsonResposta.append("{");
 		jsonResposta.append("    \"name\": \"João da Silva\",");
 		jsonResposta.append("    \"email\": \"joao@silva.org\",");
-		jsonResposta.append("    \"password\": \"hunter2\",");
+		jsonResposta.append("    \"password\": \"2ab96390c7dbe3439de74d0c9b0b1767\",");
 		jsonResposta.append("    \"phones\": [");
 
 		jsonResposta.append("        {");
@@ -120,8 +120,8 @@ public class LoginControllerTest {
 		jsonResposta.append("    \"id\": 666");
 		jsonResposta.append("}");
 
-		mockMvc.perform(post("/login/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8")
-				.content(json.toString())).andExpect(content().json(jsonResposta.toString()));
+		mockMvc.perform(post("/login/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
+			   .andExpect(content().json(jsonResposta.toString()));
 	}
 
 	@Test

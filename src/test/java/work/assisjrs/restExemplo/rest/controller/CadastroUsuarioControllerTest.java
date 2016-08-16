@@ -132,8 +132,22 @@ public class CadastroUsuarioControllerTest {
 		json.append("    ]");
 		json.append("}");
 		
+		StringBuilder jsonResposta = new StringBuilder();
+		
+		jsonResposta.append("{");
+		jsonResposta.append("    \"name\": \"João da Silva\",");
+		jsonResposta.append("    \"email\": \"usuario@silva.org\",");
+		jsonResposta.append("    \"password\": \"2ab96390c7dbe3439de74d0c9b0b1767\",");
+		jsonResposta.append("    \"phones\": [");
+		jsonResposta.append("        {");
+		jsonResposta.append("            \"number\": \"987654321\",");
+		jsonResposta.append("            \"ddd\": \"21\"");
+		jsonResposta.append("        }");
+		jsonResposta.append("    ]");
+		jsonResposta.append("}");
+		
 		mockMvc.perform(post("/cadastro/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
-	           .andExpect(content().json(json.toString()));
+	           .andExpect(content().json(jsonResposta.toString()));
 	}
 	
 	@Test

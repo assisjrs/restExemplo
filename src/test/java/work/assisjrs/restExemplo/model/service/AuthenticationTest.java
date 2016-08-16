@@ -83,7 +83,7 @@ public class AuthenticationTest {
 	}
 	
 	@Test
-	public void ACadaAutenticacaoGerarUmNovoToken() throws Exception {
+	public void aCadaAutenticacaoGerarUmNovoToken() throws Exception {
 		Usuario usuario = new Usuario();
 
 		usuario.setId(999L);

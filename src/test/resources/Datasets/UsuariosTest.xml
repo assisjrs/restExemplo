@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-	<USUARIO id="999999" name="Mr" email="emailJaCadastrado@gmail.com" password="666" created="2016-08-15" lastLogin = "2016-08-15"/>
+	<USUARIO id="999999" name="Mr" email="emailJaCadastrado@gmail.com" password="fae0b27c451c728867a567e8c1bb4e53" created="2016-08-15" lastLogin = "2016-08-15"/>
 	<TELEFONE />
 </dataset>
