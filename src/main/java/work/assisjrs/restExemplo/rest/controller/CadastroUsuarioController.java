@@ -32,11 +32,11 @@ public class CadastroUsuarioController {
 		Usuario model = modelMapper.map(usuario, Usuario.class);
 
 		try {
-			registration.register(model);
+			Usuario usuarioCadastrado = registration.register(model);
 
-			response.addHeader("Authorization", model.getToken());
+			response.addHeader("Authorization", usuarioCadastrado.getToken());
 			
-			return new ResponseEntity<>(modelMapper.map(model, UsuarioJson.class), HttpStatus.OK);
+			return new ResponseEntity<>(modelMapper.map(usuarioCadastrado, UsuarioJson.class), HttpStatus.OK);
 		} catch (EmailJaCadastradoException e) {
 			return new ResponseEntity<>(new MensagemJson("E-mail já existente"), HttpStatus.CONFLICT);
 		} catch (Exception e) {
