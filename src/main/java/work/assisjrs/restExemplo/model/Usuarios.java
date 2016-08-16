@@ -57,4 +57,8 @@ public class Usuarios {
 			return null;
 		}
 	}
+
+	public Usuario byId(Long id) {
+		return entityManager.find(Usuario.class, id);
+	}
 }

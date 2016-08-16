@@ -3,6 +3,7 @@ package work.assisjrs.restExemplo.model.service;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -11,12 +12,16 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.impl.DefaultClaims;
+import work.assisjrs.restExemplo.model.Usuarios;
 import work.assisjrs.restExemplo.model.entity.Usuario;
 
 @Component
 public class Token {
 	static String SECRET_KEY = "restExemploSecretKey";
 
+	@Autowired
+	private Usuarios usuarios;
+	
 	public String tokenizer(Usuario usuario, String subject) {
 		try {
 			return Jwts.builder()
@@ -43,13 +48,12 @@ public class Token {
 		}
 	}
 
-	public boolean isValid(String token) {
-		try {
-			return Jwts.parser()
-					   .setSigningKey(SECRET_KEY.getBytes("UTF-8"))
-					   .isSigned(token);
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
+	public Usuario getSigned(Long id, String token) throws TokenInvalidoException {
+		Usuario usuario = usuarios.byId(id);
+		
+		if(!usuario.getToken().equals(token))
+			throw new TokenInvalidoException(id);
+		
+		return usuario;
 	}
 }

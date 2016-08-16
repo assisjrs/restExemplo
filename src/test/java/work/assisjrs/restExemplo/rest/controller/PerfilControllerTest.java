@@ -28,14 +28,15 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
 import work.assisjrs.restExemplo.DBUnitConfig;
-import work.assisjrs.restExemplo.config.WebConfig; 
+import work.assisjrs.restExemplo.config.WebConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @Transactional
 @ContextConfiguration(classes = { DBUnitConfig.class, WebConfig.class })
-@TestExecutionListeners(value = { DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
-								  DbUnitTestExecutionListener.class }, mergeMode = MergeMode.MERGE_WITH_DEFAULTS)
+@TestExecutionListeners(value = { DependencyInjectionTestExecutionListener.class,
+		DirtiesContextTestExecutionListener.class,
+		DbUnitTestExecutionListener.class }, mergeMode = MergeMode.MERGE_WITH_DEFAULTS)
 @DatabaseSetup("/Datasets/PerfilControllerTest.xml")
 public class PerfilControllerTest {
 	private static final String TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2NjYiLCJzdWIiOiJURVNURSIsImVtYWlsIjoiZW1haWxKYUNhZGFzdHJhZG9AZ21haWwuY29tIiwiaWF0Ijo2MTQyOTM3NDAwMH0.sp7dNesWHcmNqMdeSja7w7UK9z1m129WPu7rkIm0VMkqAzE_zSPrV-db1fOU7IvNphrBBXV5NuVRCQkK9KjrZQ";
@@ -44,65 +45,71 @@ public class PerfilControllerTest {
 	private WebApplicationContext wac;
 
 	private MockMvc mockMvc;
-	
+
 	@Before
 	public void setup() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-								 .build();
+		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 	}
 
 	@Test
-	public void oEndpointDeveResponderJson() throws Exception {		
-		mockMvc.perform(get("/perfil/1"))
-	     	   .andExpect(content().contentType("application/json;charset=UTF-8"));
+	public void oEndpointDeveResponderJson() throws Exception {
+		mockMvc.perform(get("/perfil/1")).andExpect(content().contentType("application/json;charset=UTF-8"));
 	}
-	
+
 	@Test
-	public void casoOCadastroUseUmMetodoDiferenteDeGetLancar405() throws Exception {		
-		mockMvc.perform(post("/perfil/1"))
-	     	   .andExpect(status().isMethodNotAllowed());
+	public void casoOCadastroUseUmMetodoDiferenteDeGetLancar405() throws Exception {
+		mockMvc.perform(post("/perfil/1")).andExpect(status().isMethodNotAllowed());
 	}
-	
+
 	@Test
 	public void emCasoDeSucessoReponderComStatus200() throws Exception {
-		mockMvc.perform(get("/perfil/1").header("Authorization", TOKEN))
-	     	   .andExpect(status().isOk());
+		mockMvc.perform(get("/perfil/1").header("Authorization", TOKEN)).andExpect(status().isOk());
 	}
-	
+
 	@Test
 	public void aComunicacaoDeveUsarUTF8() throws Exception {
-		mockMvc.perform(get("/perfil/1"))
-	           .andExpect(content().encoding("UTF-8"));
+		mockMvc.perform(get("/perfil/1")).andExpect(content().encoding("UTF-8"));
 	}
-	
+
 	@Test
 	public void aoCadastrarRetornarOUsuarioPeloId() throws Exception {
 		mockMvc.perform(get("/perfil/1").header("Authorization", TOKEN))
-			   .andExpect(jsonPath("$.id").value("1"));
+			   .andExpect(jsonPath("$.id").value(1));
 	}
-	
+
 	@Test
 	public void retornarOTokenNoJson() throws Exception {
-		mockMvc.perform(get("/perfil/1"))
-	           .andExpect(jsonPath("$.token").value(TOKEN));
+		mockMvc.perform(get("/perfil/1").header("Authorization", TOKEN))
+		       .andExpect(jsonPath("$.token").value(TOKEN));
 	}
-	
+
 	@Test
 	public void retornarOTokenNoHeader() throws Exception {
 		mockMvc.perform(get("/perfil/1").header("Authorization", TOKEN))
-	           .andExpect(header().string("Authorization", notNullValue()));
+				.andExpect(header().string("Authorization", notNullValue()));
 	}
-	
+
 	@Test
-	public void casoOTokenNaoExistaRetornarErroComAMensagemNaoAutorizado() throws Exception{
-		mockMvc.perform(get("/perfil/1"))
-        	   .andExpect(jsonPath("$.mensagem").value("Não autorizado"));
+	public void casoOTokenNaoExistaRetornarErroComAMensagemNaoAutorizado() throws Exception {
+		mockMvc.perform(get("/perfil/1")).andExpect(jsonPath("$.mensagem").value("Não autorizado"));
 	}
-	
+
 	@Test
-	public void casoOTokenNaoExistaRetornarErroComStatus403() throws Exception{
-		mockMvc.perform(get("/perfil/1"))
-        	   .andExpect(status().isUnauthorized());
+	public void casoOTokenNaoExistaRetornarErroComStatus403() throws Exception {
+		mockMvc.perform(get("/perfil/1")).andExpect(status().isUnauthorized());
 	}
-	
+
+	@Test
+	public void deveBuscarOUsuarioPeloIdECompararSeOTokenNoModeloEIgualAoTokenPassadoCasoNaoSejaretornarErroComStatus403()
+			throws Exception {
+		mockMvc.perform(get("/perfil/1").header("Authorization", "NaoEUmToken"))
+			   .andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	public void deveBuscarOUsuarioPeloIdECompararSeOTokenNoModeloEIgualAoTokenPassadoCasoNaoSejaretornarErroComMensagemNaoAutorizado()
+			throws Exception {
+		mockMvc.perform(get("/perfil/1").header("Authorization", "NaoEUmToken"))
+		       .andExpect(jsonPath("$.mensagem").value("Não autorizado"));
+	}
 }
