@@ -8,6 +8,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Date;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +34,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 
 import work.assisjrs.restExemplo.DBUnitConfig;
 import work.assisjrs.restExemplo.config.WebConfig;
+import work.assisjrs.restExemplo.model.entity.Usuario;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -73,14 +79,12 @@ public class PerfilControllerTest {
 
 	@Test
 	public void aoCadastrarRetornarOUsuarioPeloId() throws Exception {
-		mockMvc.perform(get("/perfil/1").header("Authorization", TOKEN))
-			   .andExpect(jsonPath("$.id").value(1));
+		mockMvc.perform(get("/perfil/1").header("Authorization", TOKEN)).andExpect(jsonPath("$.id").value(1));
 	}
 
 	@Test
 	public void retornarOTokenNoJson() throws Exception {
-		mockMvc.perform(get("/perfil/1").header("Authorization", TOKEN))
-		       .andExpect(jsonPath("$.token").value(TOKEN));
+		mockMvc.perform(get("/perfil/1").header("Authorization", TOKEN)).andExpect(jsonPath("$.token").value(TOKEN));
 	}
 
 	@Test
@@ -102,14 +106,34 @@ public class PerfilControllerTest {
 	@Test
 	public void deveBuscarOUsuarioPeloIdECompararSeOTokenNoModeloEIgualAoTokenPassadoCasoNaoSejaretornarErroComStatus403()
 			throws Exception {
-		mockMvc.perform(get("/perfil/1").header("Authorization", "NaoEUmToken"))
-			   .andExpect(status().isUnauthorized());
+		mockMvc.perform(get("/perfil/1").header("Authorization", "NaoEUmToken")).andExpect(status().isUnauthorized());
 	}
 
 	@Test
 	public void deveBuscarOUsuarioPeloIdECompararSeOTokenNoModeloEIgualAoTokenPassadoCasoNaoSejaretornarErroComMensagemNaoAutorizado()
 			throws Exception {
 		mockMvc.perform(get("/perfil/1").header("Authorization", "NaoEUmToken"))
-		       .andExpect(jsonPath("$.mensagem").value("Não autorizado"));
+				.andExpect(jsonPath("$.mensagem").value("Não autorizado"));
+	}
+	
+	@PersistenceContext
+	private EntityManager entityManager;
+
+	@Test
+	public void CasoOUltimoLoginFoiMenosQue30minRetornarErroComStatus403() throws Exception {
+		Usuario usuarioAntesDe30Minutos = entityManager.find(Usuario.class, 2L);
+		usuarioAntesDe30Minutos.setLastLogin(new Date());
+		
+		mockMvc.perform(get("/perfil/2").header("Authorization", "zzzzz"))
+			   .andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	public void CasoOUltimoLoginFoiMenosQue30minRetornarErroComComMensagemSessaoInvalida() throws Exception {
+		Usuario usuarioAntesDe30Minutos = entityManager.find(Usuario.class, 2L);
+		usuarioAntesDe30Minutos.setLastLogin(new Date());
+		
+		mockMvc.perform(get("/perfil/2").header("Authorization", "zzzzz"))
+				.andExpect(jsonPath("$.mensagem").value("Não autorizado"));
 	}
 }

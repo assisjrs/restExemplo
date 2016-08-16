@@ -7,6 +7,9 @@ import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -104,5 +107,18 @@ public class TokenTest {
 	@Test(expected = TokenInvalidoException.class)
 	public void deveBuscarOUsuarioPeloIdECompararSeOTokenNoModeloEIgualAoTokenPassadoCasoNaoSejaLancarExcecao() throws Exception{
 		token.getSigned(1L, "NaoEOToken");
+	}
+	
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+	@DatabaseSetup("/Datasets/PerfilControllerTest.xml")
+	@Test(expected = LoginMenorQue30MinutosException.class)
+	public void CasoOUltimoLoginFoiMenosQue30minRetornarExcecao() throws Exception {
+		Usuario usuarioAntesDe30Minutos = entityManager.find(Usuario.class, 2L);
+		
+		usuarioAntesDe30Minutos.setLastLogin(new Date());
+		
+		token.getSigned(2L, "zzzzz");
 	}
 }

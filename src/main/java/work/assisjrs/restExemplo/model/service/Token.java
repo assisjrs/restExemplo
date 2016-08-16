@@ -1,6 +1,8 @@
 package work.assisjrs.restExemplo.model.service;
 
 import java.io.UnsupportedEncodingException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,12 +50,19 @@ public class Token {
 		}
 	}
 
-	public Usuario getSigned(Long id, String token) throws TokenInvalidoException {
+	public Usuario getSigned(Long id, String token) throws TokenInvalidoException, LoginMenorQue30MinutosException {
 		Usuario usuario = usuarios.byId(id);
 		
 		if(!usuario.getToken().equals(token))
 			throw new TokenInvalidoException(id);
 		
+		if(seLogouEmMenosDe30Min(usuario))
+			throw new LoginMenorQue30MinutosException(usuario.getEmail());
+		
 		return usuario;
+	}
+
+	private boolean seLogouEmMenosDe30Min(Usuario usuario) {
+		return usuario.getLastLogin().toInstant().plus(30, ChronoUnit.MINUTES).isAfter(Instant.now());
 	}
 }
