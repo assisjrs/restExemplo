@@ -2,7 +2,9 @@ package work.assisjrs.restExemplo.model.service;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.notNullValue;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 
@@ -39,6 +41,7 @@ public class RegistrationTest {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("email1@gmail.com");
+		usuario.setPassword("senha");
 
 		registration.register(usuario);
 
@@ -50,6 +53,7 @@ public class RegistrationTest {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("email3@gmail.com");
+		usuario.setPassword("senha");
 
 		registration.register(usuario);
 
@@ -63,10 +67,13 @@ public class RegistrationTest {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("email4@gmail.com");
+		usuario.setPassword("senha");
 
 		registration.register(usuario);
 
-		Assert.assertThat(usuario.getLastLogin(), is(usuario.getCreated()));
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+		
+		Assert.assertThat(sdf.format(usuario.getLastLogin()), is(sdf.format(usuario.getCreated())));
 	}
 	
 	@Test
@@ -74,12 +81,11 @@ public class RegistrationTest {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("token@gmail.com");
+		usuario.setPassword("senha");
 
 		registration.register(usuario);
 		
-		String token = new Token().tokenizer(usuario, "REGISTRATION");
-
-		Assert.assertThat(usuario.getToken(), is(token));
+		Assert.assertThat(usuario.getToken(), notNullValue());
 	}
 
 	@DatabaseSetup("/Datasets/UsuariosTest.xml")
@@ -88,6 +94,7 @@ public class RegistrationTest {
 		Usuario usuario = new Usuario();
 
 		usuario.setEmail("emailJaCadastrado@gmail.com");
+		usuario.setPassword("senha");
 
 		registration.register(usuario);
 	}

@@ -1,8 +1,7 @@
-<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<title>Cadastro Usuário</title>
+<title>Cliente de teste dos endpoints do RestExemplo</title>
 
 <style>
 	.sucesso {
@@ -38,7 +37,7 @@
 	<table>
 	<tr>
 		<td>
-		<h1>Cadastro</h1>
+		<h1>Cadastro (/cadastro/)</h1>
 		
 		<form id="cadastroForm">
 			<div>
@@ -75,7 +74,7 @@
 		</td>
 		
 		<td>
-		<h1>Login</h1>
+		<h1>Login (/login/)</h1>
 		
 		<form id="loginForm">
 			<div>
@@ -105,7 +104,7 @@
 		</td>
 		<td>
 		
-		<h1>Perfil</h1>
+		<h1>Perfil (/perfil/{id})</h1>
 		
 		<form id="perfilForm">
 			<div>
@@ -126,13 +125,23 @@
 			<br/>
 		</form>
 		</td>
+		<td>
+			<h4> Dados Atuais </h4>
+			<div class="dadosAtuais">
+				<p>id: <span id="dadosAtuaisId"></span></p>
+				<p>Email: <span id="dadosAtuaisEmail"></span></p>
+				<p>Token: <span id="dadosAtuaisToken"></span></p>
+				<p>Token Anterior: <span id="dadosAtuaisTokenAnterior"></span></p>
+				<p>Ultima Operação: <span id="dadosAtuaisUltimaOperacao">GET /</span></p>
+			</div>
+		</td>
 	</tr>
 	</table>		
 	</section>
 	
 	<section>
 		<div id="feedbackContainer">
-			<h4>Resposta Ajax <span id="dataRequisicao"></span></h4>
+			<h4>Resposta do Ajax <span id="dataRequisicao"></span></h4>
 		
 			<div><pre id="feedback"></pre></div>
 			<div><pre id="trace"></pre></div>
@@ -178,6 +187,9 @@
 		json["name"] = $("#cadastroName").val();
 		json["email"] = $("#cadastroEmail").val();
 		json["password"] = $("#cadastroPassword").val();
+		
+		$('#dadosAtuaisTokenAnterior').html($("#dadosAtuaisToken").html());
+		$('#dadosAtuaisUltimaOperacao').html('/cadastro/');
 
 		$.ajax({
 			type : "POST",
@@ -208,6 +220,9 @@
 		var json = {};
 		json["email"] = $("#loginEmail").val();
 		json["password"] = $("#loginPassword").val();
+		
+		$('#dadosAtuaisTokenAnterior').html($("#dadosAtuaisToken").html());
+		$('#dadosAtuaisUltimaOperacao').html('/login/');
 
 		$.ajax({
 			type : "POST",
@@ -237,8 +252,10 @@
 	function realizarPerfil() {
 		var json = {};
 		json["id"] = $("#perfilId").val();
-		//json["token"] = $("#loginPassword").val();
 
+		$('#dadosAtuaisTokenAnterior').html($("#dadosAtuaisToken").html());
+		$('#dadosAtuaisUltimaOperacao').html('/perfil/' + json["id"]);
+		
 		$.ajax({
 			type : "POST",
 			contentType : "application/json;charset=UTF-8",
@@ -246,6 +263,7 @@
 			data : JSON.stringify(json),
 			dataType : 'json',
 			timeout : 100000,
+			//TODO: Inserir o token no cabeçalho http
 			success : function(data) {
 				console.log("SUCCESS: ", data);
 				
@@ -275,6 +293,10 @@
 			feedback = JSON.stringify(data, null, 4);
 			
 			$("#feedbackContainer").addClass("sucesso");
+			
+			$('#dadosAtuaisId').html(data.id);
+			$('#dadosAtuaisEmail').html(data.email);
+			$('#dadosAtuaisToken').html(data.token);
 		} else {
 			feedback = JSON.stringify(data.responseJSON, null, 4);
 			

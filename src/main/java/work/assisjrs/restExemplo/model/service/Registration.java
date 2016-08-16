@@ -1,5 +1,7 @@
 package work.assisjrs.restExemplo.model.service;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +16,7 @@ public class Registration {
 	private Usuarios usuarios;
 	
 	@Autowired
-	private Token token;
+	private Authenticator authenticator;
 	
 	public Usuario register(Usuario usuario) throws EmailJaCadastradoException {
 		Usuario usuarioComEmailExistente = usuarios.getUsuarioPorEmail(usuario.getEmail());
@@ -22,12 +24,14 @@ public class Registration {
 		if (usuarioComEmailExistente != null)
 			throw new EmailJaCadastradoException(usuario.getEmail());
 
+		usuario.setLastLogin(new Date());
+		
 		usuarios.salvar(usuario);
 		
-		usuario.setLastLogin(usuario.getCreated());
-		
-		usuario.setToken(token.tokenizer(usuario, "REGISTRATION"));
-		
-		return usuario;
+		try {
+			return authenticator.authenticate(usuario.getEmail(), usuario.getPassword());
+		} catch (UsuarioInexistenteException | UsuarioESenhaInvalidosException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

@@ -1,17 +1,19 @@
 package work.assisjrs.restExemplo.model.service;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.jsonwebtoken.impl.DefaultClaims;
 import work.assisjrs.restExemplo.model.Usuarios;
 import work.assisjrs.restExemplo.model.entity.Usuario;
 
 @Service
-public class Authentication {
+public class Authenticator {
 	@Autowired
 	private Usuarios usuarios;
+	
+	@Autowired
+	private Token token;
 	
 	public Usuario authenticate(String email, String password)
 			throws UsuarioInexistenteException, UsuarioESenhaInvalidosException {
@@ -24,8 +26,14 @@ public class Authentication {
 			throw new UsuarioESenhaInvalidosException(email);
 		}
 		
-		usuario.setLastLogin(new Date());
-
-		return usuario;
+		String tokenForAutenticacao = token.tokenizer(usuario, "restExemploSubject");
+		
+		DefaultClaims body = token.getBody(tokenForAutenticacao);
+		
+		usuario.setLastLogin(body.getIssuedAt());
+		
+		usuario.setToken(tokenForAutenticacao);
+		
+		return usuarios.salvar(usuario);
 	}
 }

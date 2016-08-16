@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import work.assisjrs.restExemplo.model.entity.Usuario;
-import work.assisjrs.restExemplo.model.service.Authentication;
+import work.assisjrs.restExemplo.model.service.Authenticator;
 import work.assisjrs.restExemplo.model.service.UsuarioESenhaInvalidosException;
 import work.assisjrs.restExemplo.model.service.UsuarioInexistenteException;
 import work.assisjrs.restExemplo.rest.json.MensagemJson;
@@ -21,7 +21,7 @@ import work.assisjrs.restExemplo.rest.json.UsuarioJson;
 @RestController
 public class LoginController {
 	@Autowired
-	private Authentication authentication;
+	private Authenticator authentication;
 
 	@Autowired
 	private ModelMapper modelMapper;
