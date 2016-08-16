@@ -250,18 +250,13 @@
 	}
 	
 	function realizarPerfil() {
-		var json = {};
-		json["id"] = $("#perfilId").val();
-
 		$('#dadosAtuaisTokenAnterior').html($("#dadosAtuaisToken").html());
 		$('#dadosAtuaisUltimaOperacao').html('/perfil/' + json["id"]);
 		
 		$.ajax({
-			type : "POST",
+			type : "GET",
 			contentType : "application/json;charset=UTF-8",
-			url : "/perfil/",
-			data : JSON.stringify(json),
-			dataType : 'json',
+			url : "/perfil/" + $("#perfilId").val(),
 			timeout : 100000,
 			//TODO: Inserir o token no cabeçalho http
 			success : function(data) {

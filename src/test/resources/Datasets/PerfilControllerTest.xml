@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-	<USUARIO id="666" name="João da Silva" email="joao@silva.org"
+	<USUARIO id="1" name="João da Silva" email="joao@silva.org"
 		password="hunter2" created="2016-08-15" modified="2016-08-15"
 		lastLogin="2016-08-15"
 		token="eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2NjYiLCJzdWIiOiJURVNURSIsImVtYWlsIjoiZW1haWxKYUNhZGFzdHJhZG9AZ21haWwuY29tIiwiaWF0Ijo2MTQyOTM3NDAwMH0.sp7dNesWHcmNqMdeSja7w7UK9z1m129WPu7rkIm0VMkqAzE_zSPrV-db1fOU7IvNphrBBXV5NuVRCQkK9KjrZQ" />
 
-	<TELEFONE id="123" ddd="21" number="987654321" USUARIO_ID="666" />
+	<TELEFONE id="1" ddd="21" number="987654321" USUARIO_ID="1" />
 </dataset>
