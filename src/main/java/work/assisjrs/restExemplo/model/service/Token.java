@@ -14,6 +14,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.impl.DefaultClaims;
+import work.assisjrs.restExemplo.model.Hash;
 import work.assisjrs.restExemplo.model.Usuarios;
 import work.assisjrs.restExemplo.model.entity.Usuario;
 
@@ -24,12 +25,15 @@ public class Token {
 	@Autowired
 	private Usuarios usuarios;
 	
+	@Autowired
+	private Hash hash;
+	
 	public String tokenizer(Usuario usuario, String subject) {
 		try {
 			return Jwts.builder()
 					   .setId(usuario.getId().toString())
 					   .setSubject(subject)
-					   .claim("email", usuario.getEmail())
+					   .claim("email", hash.encode(usuario.getEmail()))
 					   .setIssuedAt(new Date())
 					   .signWith(SignatureAlgorithm.HS512, SECRET_KEY.getBytes("UTF-8"))
 					   .compact();

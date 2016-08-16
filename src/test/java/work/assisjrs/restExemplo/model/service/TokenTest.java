@@ -48,31 +48,27 @@ public class TokenTest {
 		usuario.setId(666L);
 		usuario.setEmail("emailJaCadastrado@gmail.com");
 
-		String token = new Token().tokenizer(usuario, "TESTE");
-		
 		DefaultClaims body = (DefaultClaims) Jwts.parser()
 												 .setSigningKey(Token.SECRET_KEY.getBytes("UTF-8"))
-												 .parse(token)
+												 .parse(token.tokenizer(usuario, "TESTE"))
 												 .getBody();
 		
 		Assert.assertThat(body.getId(), is("666"));
 	}
 	
 	@Test
-	public void deveGerarTokenPelosDadosDoUsuarioEmail() throws UnsupportedEncodingException {
+	public void deveGerarTokenPelosDadosDoUsuarioEmailComHash() throws UnsupportedEncodingException {
 		Usuario usuario = new Usuario();
 
 		usuario.setId(666L);
 		usuario.setEmail("emailJaCadastrado@gmail.com");
 
-		String token = new Token().tokenizer(usuario, "TESTE");
-		
 		DefaultClaims body = (DefaultClaims) Jwts.parser()
 												 .setSigningKey(Token.SECRET_KEY.getBytes("UTF-8"))
-												 .parse(token)
+												 .parse(token.tokenizer(usuario, "TESTE"))
 												 .getBody();
 		
-		Assert.assertThat(body.get("email", String.class), is("emailJaCadastrado@gmail.com"));
+		Assert.assertThat(body.get("email", String.class), is("445cba00f1a7c1824f7c5629d1e54539"));
 	}
 	
 	@Test
@@ -82,11 +78,9 @@ public class TokenTest {
 		usuario.setId(666L);
 		usuario.setEmail("emailJaCadastrado@gmail.com");
 
-		String token = new Token().tokenizer(usuario, "TESTE");
-		
 		DefaultClaims body = (DefaultClaims) Jwts.parser()
 												 .setSigningKey(Token.SECRET_KEY.getBytes("UTF-8"))
-												 .parse(token)
+												 .parse(token.tokenizer(usuario, "TESTE"))
 												 .getBody();
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
 		
