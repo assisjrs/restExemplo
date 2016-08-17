@@ -106,3 +106,8 @@ eclipse {
     }
   }
 }
+
+task stage {
+  dependsOn clean, build//, jettyRun
+}
+
