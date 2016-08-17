@@ -95,7 +95,7 @@ public class PerfilControllerTest {
 
 	@Test
 	public void casoOTokenNaoExistaRetornarErroComAMensagemNaoAutorizado() throws Exception {
-		mockMvc.perform(get("/perfil/1")).andExpect(jsonPath("$.mensagem").value("Não autorizado"));
+		mockMvc.perform(get("/perfil/1")).andExpect(jsonPath("$.mensagem").value("NÃ£o autorizado"));
 	}
 
 	@Test

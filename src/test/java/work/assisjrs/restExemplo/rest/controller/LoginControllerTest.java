@@ -106,7 +106,7 @@ public class LoginControllerTest {
 		StringBuilder jsonResposta = new StringBuilder();
 
 		jsonResposta.append("{");
-		jsonResposta.append("    \"name\": \"João da Silva\",");
+		jsonResposta.append("    \"name\": \"JoÃ£o da Silva\",");
 		jsonResposta.append("    \"email\": \"joao@silva.org\",");
 		jsonResposta.append("    \"password\": \"2ab96390c7dbe3439de74d0c9b0b1767\",");
 		jsonResposta.append("    \"phones\": [");
@@ -134,7 +134,7 @@ public class LoginControllerTest {
 		json.append("}");
 
 		mockMvc.perform(post("/login/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
-			   .andExpect(jsonPath("$.mensagem").value("Usuário e/ou senha inválidos"));
+			   .andExpect(jsonPath("$.mensagem").value("UsuÃ¡rio e/ou senha invÃ¡lidos"));
 	}
 	
 	@Test
@@ -160,7 +160,7 @@ public class LoginControllerTest {
 		json.append("}");
 
 		mockMvc.perform(post("/login/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
-			   .andExpect(jsonPath("$.mensagem").value("Usuário e/ou senha inválidos"));
+			   .andExpect(jsonPath("$.mensagem").value("UsuÃ¡rio e/ou senha invÃ¡lidos"));
 	}
 	
 	@Test
