@@ -38,7 +38,7 @@ public class CadastroUsuarioController {
 			
 			return new ResponseEntity<>(modelMapper.map(usuarioCadastrado, UsuarioJson.class), HttpStatus.OK);
 		} catch (EmailJaCadastradoException e) {
-			return new ResponseEntity<>(new MensagemJson("E-mail j· existente"), HttpStatus.CONFLICT);
+			return new ResponseEntity<>(new MensagemJson("E-mail j√° existente"), HttpStatus.CONFLICT);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(new MensagemJson(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

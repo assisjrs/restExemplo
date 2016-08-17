@@ -55,7 +55,7 @@ public class CadastroUsuarioControllerTest {
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
-		json.append("    \"name\": \"Jo„o da Silva\",");
+		json.append("    \"name\": \"Jo√£o da Silva\",");
 		json.append("    \"email\": \"json@silva.org\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");
@@ -81,7 +81,7 @@ public class CadastroUsuarioControllerTest {
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
-		json.append("    \"name\": \"Jo„o da Silva\",");
+		json.append("    \"name\": \"Jo√£o da Silva\",");
 		json.append("    \"email\": \"status200@silva.org\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");
@@ -101,7 +101,7 @@ public class CadastroUsuarioControllerTest {
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
-		json.append("    \"name\": \"Jo„o da Silva\",");
+		json.append("    \"name\": \"Jo√£o da Silva\",");
 		json.append("    \"email\": \"utf8@silva.org\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");
@@ -121,7 +121,7 @@ public class CadastroUsuarioControllerTest {
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
-		json.append("    \"name\": \"Jo„o da Silva\",");
+		json.append("    \"name\": \"Jo√£o da Silva\",");
 		json.append("    \"email\": \"usuario@silva.org\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");
@@ -135,7 +135,7 @@ public class CadastroUsuarioControllerTest {
 		StringBuilder jsonResposta = new StringBuilder();
 		
 		jsonResposta.append("{");
-		jsonResposta.append("    \"name\": \"Jo„o da Silva\",");
+		jsonResposta.append("    \"name\": \"Jo√£o da Silva\",");
 		jsonResposta.append("    \"email\": \"usuario@silva.org\",");
 		jsonResposta.append("    \"password\": \"2ab96390c7dbe3439de74d0c9b0b1767\",");
 		jsonResposta.append("    \"phones\": [");
@@ -155,7 +155,7 @@ public class CadastroUsuarioControllerTest {
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
-		json.append("    \"name\": \"Jo„o da Silva\",");
+		json.append("    \"name\": \"Jo√£o da Silva\",");
 		json.append("    \"email\": \"id@gmail.com\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");
@@ -175,7 +175,7 @@ public class CadastroUsuarioControllerTest {
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
-		json.append("    \"name\": \"Jo„o da Silva\",");
+		json.append("    \"name\": \"Jo√£o da Silva\",");
 		json.append("    \"email\": \"created@gmail.com\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");
@@ -195,7 +195,7 @@ public class CadastroUsuarioControllerTest {
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
-		json.append("    \"name\": \"Jo„o da Silva\",");
+		json.append("    \"name\": \"Jo√£o da Silva\",");
 		json.append("    \"email\": \"modified@gmail.com\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");
@@ -215,7 +215,7 @@ public class CadastroUsuarioControllerTest {
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
-		json.append("    \"name\": \"Jo„o da Silva\",");
+		json.append("    \"name\": \"Jo√£o da Silva\",");
 		json.append("    \"email\": \"lastLogin@silva.org\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");
@@ -235,7 +235,7 @@ public class CadastroUsuarioControllerTest {
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
-		json.append("    \"name\": \"Jo„o da Silva\",");
+		json.append("    \"name\": \"Jo√£o da Silva\",");
 		json.append("    \"email\": \"lastLogin@silva.org\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");
@@ -255,7 +255,7 @@ public class CadastroUsuarioControllerTest {
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
-		json.append("    \"name\": \"Jo„o da Silva\",");
+		json.append("    \"name\": \"Jo√£o da Silva\",");
 		json.append("    \"email\": \"lastLogin@silva.org\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");
@@ -275,7 +275,7 @@ public class CadastroUsuarioControllerTest {
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
-		json.append("    \"name\": \"Jo„o da Silva\",");
+		json.append("    \"name\": \"Jo√£o da Silva\",");
 		json.append("    \"email\": \"emailJaCadastrado@gmail.com\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");
@@ -287,7 +287,7 @@ public class CadastroUsuarioControllerTest {
 		json.append("}");
 		
 		mockMvc.perform(post("/cadastro/").contentType(MediaType.APPLICATION_JSON_VALUE).characterEncoding("UTF-8").content(json.toString()))
-	           .andExpect(jsonPath("$.mensagem").value("E-mail j· existente"));
+	           .andExpect(jsonPath("$.mensagem").value("E-mail j√° existente"));
 	}
 	
 	@Test
@@ -295,7 +295,7 @@ public class CadastroUsuarioControllerTest {
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{");
-		json.append("    \"name\": \"Jo„o da Silva\",");
+		json.append("    \"name\": \"Jo√£o da Silva\",");
 		json.append("    \"email\": \"emailJaCadastrado@gmail.com\",");
 		json.append("    \"password\": \"hunter2\",");
 		json.append("    \"phones\": [");

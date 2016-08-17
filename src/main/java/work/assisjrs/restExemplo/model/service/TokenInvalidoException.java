@@ -6,6 +6,6 @@ public class TokenInvalidoException extends RestExemploException {
 	private static final long serialVersionUID = -6959129930635401536L;
 
 	public TokenInvalidoException(Long id) {
-		super(String.format("O token enviado pelo Usuario %s È inv·lido.", id));
+		super(String.format("O token enviado pelo Usuario %s √© inv√°lido.", id));
 	}
 }

@@ -113,7 +113,7 @@ public class PerfilControllerTest {
 	public void deveBuscarOUsuarioPeloIdECompararSeOTokenNoModeloEIgualAoTokenPassadoCasoNaoSejaretornarErroComMensagemNaoAutorizado()
 			throws Exception {
 		mockMvc.perform(get("/perfil/1").header("Authorization", "NaoEUmToken"))
-				.andExpect(jsonPath("$.mensagem").value("Não autorizado"));
+				.andExpect(jsonPath("$.mensagem").value("NÃ£o autorizado"));
 	}
 	
 	@PersistenceContext
@@ -134,6 +134,6 @@ public class PerfilControllerTest {
 		usuarioAntesDe30Minutos.setLastLogin(new Date());
 		
 		mockMvc.perform(get("/perfil/2").header("Authorization", "zzzzz"))
-				.andExpect(jsonPath("$.mensagem").value("Não autorizado"));
+				.andExpect(jsonPath("$.mensagem").value("NÃ£o autorizado"));
 	}
 }

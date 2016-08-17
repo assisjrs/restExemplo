@@ -37,9 +37,9 @@ public class LoginController {
 			
 			return new ResponseEntity<>(modelMapper.map(model, UsuarioJson.class), HttpStatus.OK);
 		} catch (UsuarioInexistenteException e) {
-			return new ResponseEntity<>(new MensagemJson("Usuário e/ou senha inválidos"), HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(new MensagemJson("UsuÃ¡rio e/ou senha invÃ¡dos"), HttpStatus.UNAUTHORIZED);
 		} catch (UsuarioESenhaInvalidosException e) {
-			return new ResponseEntity<>(new MensagemJson("Usuário e/ou senha inválidos"), HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(new MensagemJson("UsuÃ¡rio e/ou senha invÃ¡lidos"), HttpStatus.UNAUTHORIZED);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(new MensagemJson(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
