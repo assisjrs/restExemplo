@@ -106,7 +106,7 @@ public class LoginControllerTest {
 		StringBuilder jsonResposta = new StringBuilder();
 
 		jsonResposta.append("{");
-		jsonResposta.append("    \"name\": \"João da Silva\",");
+		jsonResposta.append("    \"name\": \"Joao da Silva\",");
 		jsonResposta.append("    \"email\": \"joao@silva.org\",");
 		jsonResposta.append("    \"password\": \"2ab96390c7dbe3439de74d0c9b0b1767\",");
 		jsonResposta.append("    \"phones\": [");

@@ -36,9 +36,7 @@ public class LoginController {
 			response.addHeader("Authorization", model.getToken());
 			
 			return new ResponseEntity<>(modelMapper.map(model, UsuarioJson.class), HttpStatus.OK);
-		} catch (UsuarioInexistenteException e) {
-			return new ResponseEntity<>(new MensagemJson("Usuário e/ou senha invádos"), HttpStatus.UNAUTHORIZED);
-		} catch (UsuarioESenhaInvalidosException e) {
+		} catch (UsuarioInexistenteException | UsuarioESenhaInvalidosException e) {
 			return new ResponseEntity<>(new MensagemJson("Usuário e/ou senha inválidos"), HttpStatus.UNAUTHORIZED);
 		} catch (Exception e) {
 			e.printStackTrace();

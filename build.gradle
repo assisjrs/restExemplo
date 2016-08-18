@@ -89,6 +89,7 @@ buildscript {
 
   dependencies {
     classpath 'org.akhikhl.gretty:gretty:+'
+    classpath "io.ratpack:ratpack-gradle:1.3.3"
   }
 }
 
@@ -107,7 +108,9 @@ eclipse {
   }
 }
 
+apply plugin: "io.ratpack.ratpack-groovy"
+
 task stage {
-  dependsOn clean, assemble
+  dependsOn clean, build, installDist
 }
 
