@@ -111,6 +111,6 @@ eclipse {
 apply plugin: "io.ratpack.ratpack-groovy"
 
 task stage {
-  dependsOn clean, build, installDist
+  dependsOn installDist
 }
 
