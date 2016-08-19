@@ -30,6 +30,10 @@ repositories {
     }
 }
 
+configurations {
+  runtimeOnly
+}
+
 // In this section you declare the dependencies for your production and test code
 dependencies {
     // The production code uses the SLF4J logging API at compile time
@@ -80,6 +84,11 @@ dependencies {
     
     testCompile 'org.dbunit:dbunit:2.5.0'
     testCompile 'com.github.springtestdbunit:spring-test-dbunit:1.2.0'
+    
+    // to run our App on Heroku
+    runtimeOnly 'org.eclipse.jetty:jetty-runner:9.3.11.v20160721'
+    // monitoring on Heroku
+    runtimeOnly 'com.newrelic.agent.java:newrelic-agent:2.18.0'
 }
 
 buildscript {
@@ -108,9 +117,19 @@ eclipse {
   }
 }
 
-apply plugin: "io.ratpack.ratpack-groovy"
+task copyToLib << {
+  copy {
+    from configurations.runtimeOnly.copy().setTransitive(false)
+    into "$buildDir/libs"
+    rename { name ->
+      def artifacts = configurations.runtimeOnly.resolvedConfiguration.resolvedArtifacts
+      def artifact = artifacts.find { it.file.name == name }
+      "${artifact.name}.${artifact.extension}"
+    }
+  }
+}
 
 task stage {
-  dependsOn installDist
+  dependsOn clean, war, copyToLib
 }
 
